@@ -1,0 +1,33 @@
+{
+  "name": "dcardimage",
+  "version": "1.0.0",
+  "description": "fast browse dcard images",
+  "main": "index.html",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "browserify": "^16.2.3",
+    "vue": "^2.6.10",
+    "vueify": "^9.4.1",
+    "uglify-es": "^3.3.9"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/en96321/dcardimage.git"
+  },
+  "keywords": [
+    "gate",
+    "private"
+  ],
+  "author": "pedroyang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/en96321/dcardimage/issues"
+  },
+  "homepage": "https://github.com/en96321/dcardimage#readme"
+}

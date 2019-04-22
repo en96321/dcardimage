@@ -1,0 +1,174 @@
+/**scrollbar**/
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #ddd;
+}
+
+::-webkit-scrollbar-button {
+    display: none;
+}
+
+::-webkit-scrollbar-corner {
+    background-color: transparent;
+}
+
+/**html css**/
+
+body {
+    background-color: #222;
+}
+
+a {
+    cursor: pointer;
+    color:white;
+}
+
+/***class**/
+#nav{
+    margin-top: -16px;
+}
+.speedDial{
+    min-width:40px;
+}
+.miniIcon{
+    font-size: 1em!important;
+    vertical-align: sub!important;
+}
+.material-icons {
+    font-size: 24px;
+    /* Preferred icon size */
+    width: 1em;
+    height: 1em;
+}
+.weight{
+    font-weight: 900;
+    font-size: 1.2em;
+}
+.navButton {
+    margin-right: 16px;
+}
+
+.page-content {
+    width: 100%;
+    overflow: auto;
+    height: 100%;
+}
+
+.defaultblock {
+    max-width: 1600px;
+    margin: 0px auto;
+}
+
+.loadmoreButton {
+    position: fixed;
+    right: 32px;
+    bottom: 32px;
+    z-index: 9;
+}
+
+.loadbar {
+    position: fixed;
+    width: 52px;
+    bottom: 34px;
+    right: 34px;
+    height: 52px;
+    z-index: 10;
+}
+.imgBlock{
+    float: left;
+    width:320px;
+    height: 320px;
+    background-color: rgba(255,255,255,0.4);
+}
+img{
+    width:320px;
+    height: 320px;
+}
+.endBlock{
+    width: 318px;
+    height: 318px;
+    background-color: white;
+    text-align: center;
+    border: 1px solid black;
+    line-height: 20;
+    float: left;
+    font-weight: 900;
+}
+.mdl-card__actions {
+  height: 58px;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.4);
+}
+.mdl-card{
+    min-height: 320px;
+}
+#searchBox {
+    margin: 32px 16px 16px 16px;
+}
+#search{
+    outline: none;
+    border-bottom: none;
+    width:calc(100% - 64px);
+}
+.material-icons{
+    line-height: inherit;
+}
+.text-white{
+    color:white
+}
+@media only screen and (max-width: 1610px) {
+    .defaultblock {
+        max-width: 1280px;
+        margin: 0px auto;
+    }
+}
+@media only screen and (max-width: 1290px) {
+    .defaultblock {
+        max-width: 960px;
+        margin: 0px auto;
+    }
+}
+@media only screen and (max-width: 970px) {
+    .defaultblock {
+        max-width: 640px;
+        margin: 0px auto;
+    }
+}
+@media only screen and (max-width: 650px) {
+    .defaultblock {
+        max-width: 400px;
+        margin: 0px auto;
+    }
+    img{
+        width: 200px;
+        height: 200px;
+        max-width: 200px;
+    }
+    .imgBlock{
+        width:200px;
+    }
+    .endBlock{
+        width: calc(100% - 2px);
+        height: 80px;
+        line-height: 5;
+    }
+    .mdl-card__actions {
+      height: 58px;
+      padding: 8px;
+      background: rgba(0, 0, 0, 0.4);
+    }
+    .mdl-card{
+        min-height: 200px;
+        height: 200px;
+    }
+}
