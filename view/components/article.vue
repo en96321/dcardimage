@@ -1,7 +1,19 @@
 <template>
   <div class="defaultblock" v-if="post.media.length>0">
     <div v-if="listed">
-      <h4 class="text-white">{{post.title}}</h4>
+      <h4 class="text-white">
+        {{post.title}}
+        <button
+          v-if="loading"
+          class="mdl-button mdl-js-button mdl-js-ripple-effect text-white"
+          disabled="true"
+        >壓縮中</button>
+        <button
+          v-else
+          class="mdl-button mdl-js-button mdl-js-ripple-effect text-white"
+          @click="download"
+        >下載本文圖片</button>
+      </h4>
     </div>
     <div :style="style">
       <a
@@ -29,10 +41,11 @@
 module.exports = {
   name: "d-article",
   props: ["comment", "listed", "post"],
-  data(){
-    return{
+  data() {
+    return {
+      loading: false,
       commentLimit: 100
-    }
+    };
   },
   computed: {
     icon() {
@@ -45,7 +58,7 @@ module.exports = {
     }
   },
   mounted() {
-    if(this.comment)this.getCommentsImages(this.post,0);
+    if (this.comment) this.getCommentsImages(this.post, 0);
   },
   methods: {
     //讀取dcard一般留言
@@ -71,12 +84,34 @@ module.exports = {
                 });
             });
           floor += this.commentLimit;
-          if (floor < post.commentCount)
-            this.getCommentsImages(post, floor);
+          if (floor < post.commentCount) this.getCommentsImages(post, floor);
         })
         .catch(err => {
           console.log(`文章${post.id}-B${floor}後留言無法讀取`, err);
         });
+    },
+    //下載圖片
+    download() {
+      this.loading = true;
+      let zip = new JSZip();
+      let getImages = [];
+      this.post.media.forEach(image => {
+        getImages.push(
+          axios.get(image.url, {
+            responseType: "arraybuffer"
+          })
+        );
+      });
+      axios.all(getImages).then(res => {
+        res.forEach((image, index) => {
+          zip.file(index + ".jpg", image.data);
+        });
+
+        zip.generateAsync({ type: "blob" }).then(content => {
+          this.loading = false;
+          saveAs(content, this.post.id + ".zip");
+        });
+      });
     }
   }
 };

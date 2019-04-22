@@ -9026,14 +9026,27 @@ if (process.env.NODE_ENV === 'production') {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 module.exports = {
   name: "d-article",
   props: ["comment", "listed", "post"],
-  data(){
-    return{
+  data() {
+    return {
+      loading: false,
       commentLimit: 100
-    }
+    };
   },
   computed: {
     icon() {
@@ -9046,7 +9059,7 @@ module.exports = {
     }
   },
   mounted() {
-    if(this.comment)this.getCommentsImages(this.post,0);
+    if (this.comment) this.getCommentsImages(this.post, 0);
   },
   methods: {
     //讀取dcard一般留言
@@ -9072,12 +9085,34 @@ module.exports = {
                 });
             });
           floor += this.commentLimit;
-          if (floor < post.commentCount)
-            this.getCommentsImages(post, floor);
+          if (floor < post.commentCount) this.getCommentsImages(post, floor);
         })
         .catch(err => {
           console.log(`文章${post.id}-B${floor}後留言無法讀取`, err);
         });
+    },
+    //下載圖片
+    download() {
+      this.loading = true;
+      let zip = new JSZip();
+      let getImages = [];
+      this.post.media.forEach(image => {
+        getImages.push(
+          axios.get(image.url, {
+            responseType: "arraybuffer"
+          })
+        );
+      });
+      axios.all(getImages).then(res => {
+        res.forEach((image, index) => {
+          zip.file(index + ".jpg", image.data);
+        });
+
+        zip.generateAsync({ type: "blob" }).then(content => {
+          this.loading = false;
+          saveAs(content, this.post.id + ".zip");
+        });
+      });
     }
   }
 };
@@ -9086,7 +9121,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.post.media.length>0)?_c('div',{staticClass:"defaultblock"},[(_vm.listed)?_c('div',[_c('h4',{staticClass:"text-white"},[_vm._v(_vm._s(_vm.post.title))])]):_vm._e(),_vm._v(" "),_c('div',{style:(_vm.style)},_vm._l((_vm.post.media),function(image,index){return _c('a',{key:_vm.post.id+'-'+index,attrs:{"href":'https://www.dcard.tw/f/'+_vm.post.forumAlias+'/p/'+_vm.post.id,"target":"_blank","title":_vm.post.title}},[_c('div',{staticClass:"imgBlock mdl-card",style:({'background': 'url("'+(image.url.indexOf("imgur")>-1?image.url.replace(".jpg","m.jpg"):image.url).replace("https","http").replace("http","https")+'") center center / cover'})},[_c('div',{staticClass:"mdl-card__title mdl-card--expand"}),_vm._v(" "),_c('div',{class:{'mdl-card__actions':!_vm.listed||image.floor!=undefined}},[(!_vm.listed)?_c('span',[_vm._v(_vm._s(_vm.post.title))]):_vm._e(),_vm._v(" "),(image.floor!=undefined)?_c('span',[_vm._v("#B"+_vm._s(image.floor))]):_vm._e()])])])}),0)]):_vm._e()}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.post.media.length>0)?_c('div',{staticClass:"defaultblock"},[(_vm.listed)?_c('div',[_c('h4',{staticClass:"text-white"},[_vm._v("\n      "+_vm._s(_vm.post.title)+"\n      "),(_vm.loading)?_c('button',{staticClass:"mdl-button mdl-js-button mdl-js-ripple-effect text-white",attrs:{"disabled":"true"}},[_vm._v("壓縮中")]):_c('button',{staticClass:"mdl-button mdl-js-button mdl-js-ripple-effect text-white",on:{"click":_vm.download}},[_vm._v("下載本文圖片")])])]):_vm._e(),_vm._v(" "),_c('div',{style:(_vm.style)},_vm._l((_vm.post.media),function(image,index){return _c('a',{key:_vm.post.id+'-'+index,attrs:{"href":'https://www.dcard.tw/f/'+_vm.post.forumAlias+'/p/'+_vm.post.id,"target":"_blank","title":_vm.post.title}},[_c('div',{staticClass:"imgBlock mdl-card",style:({'background': 'url("'+(image.url.indexOf("imgur")>-1?image.url.replace(".jpg","m.jpg"):image.url).replace("https","http").replace("http","https")+'") center center / cover'})},[_c('div',{staticClass:"mdl-card__title mdl-card--expand"}),_vm._v(" "),_c('div',{class:{'mdl-card__actions':!_vm.listed||image.floor!=undefined}},[(!_vm.listed)?_c('span',[_vm._v(_vm._s(_vm.post.title))]):_vm._e(),_vm._v(" "),(image.floor!=undefined)?_c('span',[_vm._v("#B"+_vm._s(image.floor))]):_vm._e()])])])}),0)]):_vm._e()}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -9171,7 +9206,7 @@ if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
 __vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('header',{staticClass:"mdl-layout__header mdl-layout__header--transparent"},[_c('div',{staticClass:"mdl-layout__header-row"},[_c('span',{staticClass:"mdl-layout-title"},[_vm._v(_vm._s(_vm.title))]),_vm._v(" "),_c('div',{staticClass:"mdl-layout-spacer"}),_vm._v(" "),_c('nav',{staticClass:"mdl-navigation",staticStyle:{"overflow":"hidden"}},[_c('label',{staticClass:"mdl-icon-toggle mdl-js-icon-toggle mdl-js-ripple-effect",attrs:{"for":"popular","title":"熱門"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.status.popular),expression:"status.popular"}],staticClass:"mdl-icon-toggle__input",attrs:{"type":"checkbox","id":"popular"},domProps:{"checked":Array.isArray(_vm.status.popular)?_vm._i(_vm.status.popular,null)>-1:(_vm.status.popular)},on:{"change":function($event){var $$a=_vm.status.popular,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=null,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.$set(_vm.status, "popular", $$a.concat([$$v])))}else{$$i>-1&&(_vm.$set(_vm.status, "popular", $$a.slice(0,$$i).concat($$a.slice($$i+1))))}}else{_vm.$set(_vm.status, "popular", $$c)}}}}),_vm._v(" "),_c('i',{staticClass:"mdl-icon-toggle__label material-icons"},[_vm._v("whatshot")])]),_vm._v(" "),_c('label',{staticClass:"mdl-icon-toggle mdl-js-icon-toggle mdl-js-ripple-effect",attrs:{"for":"pin","title":"置頂文章"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.status.pin),expression:"status.pin"}],staticClass:"mdl-icon-toggle__input",attrs:{"type":"checkbox","id":"pin"},domProps:{"checked":Array.isArray(_vm.status.pin)?_vm._i(_vm.status.pin,null)>-1:(_vm.status.pin)},on:{"change":function($event){var $$a=_vm.status.pin,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=null,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.$set(_vm.status, "pin", $$a.concat([$$v])))}else{$$i>-1&&(_vm.$set(_vm.status, "pin", $$a.slice(0,$$i).concat($$a.slice($$i+1))))}}else{_vm.$set(_vm.status, "pin", $$c)}}}}),_vm._v(" "),_c('i',{staticClass:"mdl-icon-toggle__label material-icons"},[_vm._v("grade")])]),_vm._v(" "),_c('label',{staticClass:"mdl-icon-toggle mdl-js-icon-toggle mdl-js-ripple-effect",attrs:{"title":"留言","for":"comment"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.status.comment),expression:"status.comment"}],staticClass:"mdl-icon-toggle__input",attrs:{"type":"checkbox","id":"comment"},domProps:{"checked":Array.isArray(_vm.status.comment)?_vm._i(_vm.status.comment,null)>-1:(_vm.status.comment)},on:{"change":function($event){var $$a=_vm.status.comment,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=null,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.$set(_vm.status, "comment", $$a.concat([$$v])))}else{$$i>-1&&(_vm.$set(_vm.status, "comment", $$a.slice(0,$$i).concat($$a.slice($$i+1))))}}else{_vm.$set(_vm.status, "comment", $$c)}}}}),_vm._v(" "),_c('i',{staticClass:"mdl-icon-toggle__label material-icons"},[_vm._v("comment")])]),_vm._v(" "),_c('label',{staticClass:"mdl-icon-toggle mdl-js-icon-toggle mdl-js-ripple-effect",attrs:{"title":"模式","for":"mode"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.status.listed),expression:"status.listed"}],staticClass:"mdl-icon-toggle__input",attrs:{"type":"checkbox","id":"mode"},domProps:{"checked":Array.isArray(_vm.status.listed)?_vm._i(_vm.status.listed,null)>-1:(_vm.status.listed)},on:{"change":function($event){var $$a=_vm.status.listed,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=null,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.$set(_vm.status, "listed", $$a.concat([$$v])))}else{$$i>-1&&(_vm.$set(_vm.status, "listed", $$a.slice(0,$$i).concat($$a.slice($$i+1))))}}else{_vm.$set(_vm.status, "listed", $$c)}}}}),_vm._v(" "),_c('i',{staticClass:"mdl-icon-toggle__label material-icons mdl-color-text--primary"},[_vm._v(_vm._s(_vm.icon))])]),_vm._v(" "),_vm._m(0)])])])}
-__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"mdl-navigation__link mdl-color--accent",staticStyle:{"margin-left":"16px"}},[_c('h6',{staticStyle:{"font-weight":"bolder"}},[_vm._v("迪卡圖片庫")])])}]
+__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"mdl-navigation__link mdl-color--accent",staticStyle:{"margin-left":"16px"}},[_c('h6',{staticStyle:{"font-weight":"bolder"}},[_vm._v("D卡圖片庫")])])}]
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return

@@ -47,7 +47,7 @@
             <i class="mdl-icon-toggle__label material-icons mdl-color-text--primary">{{icon}}</i>
           </label>
           <div class="mdl-navigation__link mdl-color--accent" style="margin-left:16px">
-            <h6 style="font-weight:bolder">迪卡圖片庫</h6>
+            <h6 style="font-weight:bolder">D卡圖片庫</h6>
           </div>
         </nav>
       </div>
