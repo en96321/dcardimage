@@ -1,5 +1,5 @@
 <template>
-  <div class="defaultblock">
+  <div class="defaultblock" v-if="post.media.length>0">
     <div v-if="listed">
       <h4 class="text-white">{{post.title}}</h4>
     </div>
