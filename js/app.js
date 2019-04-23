@@ -9059,7 +9059,7 @@ module.exports = {
     }
   },
   mounted() {
-    //if (this.comment) this.getCommentsImages(this.post, 0);
+    if (this.comment) this.getCommentsImages(this.post, 0);
   },
   methods: {
     //讀取dcard一般留言
