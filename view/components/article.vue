@@ -97,7 +97,7 @@ module.exports = {
       let getImages = [];
       this.post.media.forEach(image => {
         getImages.push(
-          axios.get(image.url, {
+          axios.get(image.url.replace(`https`,`http`).replace(`http`,`https`), {
             responseType: "arraybuffer"
           })
         );

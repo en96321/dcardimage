@@ -9059,7 +9059,7 @@ module.exports = {
     }
   },
   mounted() {
-    if (this.comment) this.getCommentsImages(this.post, 0);
+    //if (this.comment) this.getCommentsImages(this.post, 0);
   },
   methods: {
     //讀取dcard一般留言
@@ -9098,7 +9098,7 @@ module.exports = {
       let getImages = [];
       this.post.media.forEach(image => {
         getImages.push(
-          axios.get(image.url, {
+          axios.get(image.url.replace(`https`,`http`).replace(`http`,`https`), {
             responseType: "arraybuffer"
           })
         );
