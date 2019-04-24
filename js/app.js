@@ -9038,6 +9038,16 @@ if (process.env.NODE_ENV === 'production') {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 module.exports = {
   name: "d-article",
@@ -9059,7 +9069,7 @@ module.exports = {
     }
   },
   mounted() {
-    //if (this.comment) this.getCommentsImages(this.post, 0);
+    if (this.comment) this.getCommentsImages(this.post, 0);
   },
   methods: {
     //讀取dcard一般留言
@@ -9070,22 +9080,21 @@ module.exports = {
       axios
         .get(api)
         .then(res => {
-          if (res.status == 200)
-            res.data.forEach(c => {
+          if (res.status == 200){
+            res.data.map(c=>{
               c.mediaMeta
                 .filter(img => {
                   return img.type == "image/imgur";
                 })
                 .map(el => {
                   el.floor = c.floor;
-                  return el;
-                })
-                .forEach(el => {
+                  el.url=(el.url.indexOf(`imgur`)>-1?el.url.replace(`.jpg`,`m.jpg`):el.url).replace(`https`,`http`).replace(`http`,`https`);
                   this.post.media.push(el);
-                });
-            });
+                })
+            })  
           floor += this.commentLimit;
           if (floor < post.commentCount) this.getCommentsImages(post, floor);
+          }
         })
         .catch(err => {
           console.log(`文章${post.id}-B${floor}後留言無法讀取`, err);
@@ -9096,22 +9105,26 @@ module.exports = {
       this.loading = true;
       let zip = new JSZip();
       let getImages = [];
-      this.post.media.forEach(image => {
+      this.post.media.map(image=>{
         getImages.push(
           axios.get(image.url.replace(`https`,`http`).replace(`http`,`https`), {
             responseType: "arraybuffer"
           })
         );
-      });
+      })
       axios.all(getImages).then(res => {
-        res.forEach((image, index) => {
+        res.map((image,index)=>{
           zip.file(index + ".jpg", image.data);
-        });
-
+        })
+        for(i=0;i<res.length;i++){
+          
+        }
         zip.generateAsync({ type: "blob" }).then(content => {
           this.loading = false;
           saveAs(content, this.post.id + ".zip");
         });
+      }).catch(err=>{
+        this.loading = false;
       });
     }
   }
@@ -9121,7 +9134,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.post.media.length>0)?_c('div',{staticClass:"defaultblock"},[(_vm.listed)?_c('div',[_c('h4',{staticClass:"text-white"},[_vm._v("\n      "+_vm._s(_vm.post.title)+"\n      "),(_vm.loading)?_c('button',{staticClass:"mdl-button mdl-js-button mdl-js-ripple-effect text-white",attrs:{"disabled":"true"}},[_vm._v("壓縮中")]):_c('button',{staticClass:"mdl-button mdl-js-button mdl-js-ripple-effect text-white",on:{"click":_vm.download}},[_vm._v("下載本文圖片")])])]):_vm._e(),_vm._v(" "),_c('div',{style:(_vm.style)},_vm._l((_vm.post.media),function(image,index){return _c('a',{key:_vm.post.id+'-'+index,attrs:{"href":'https://www.dcard.tw/f/'+_vm.post.forumAlias+'/p/'+_vm.post.id,"target":"_blank","title":_vm.post.title}},[_c('div',{staticClass:"imgBlock mdl-card",style:({'background': 'url("'+(image.url.indexOf("imgur")>-1?image.url.replace(".jpg","m.jpg"):image.url).replace("https","http").replace("http","https")+'") center center / cover'})},[_c('div',{staticClass:"mdl-card__title mdl-card--expand"}),_vm._v(" "),_c('div',{class:{'mdl-card__actions':!_vm.listed||image.floor!=undefined}},[(!_vm.listed)?_c('span',[_vm._v(_vm._s(_vm.post.title))]):_vm._e(),_vm._v(" "),(image.floor!=undefined)?_c('span',[_vm._v("#B"+_vm._s(image.floor))]):_vm._e()])])])}),0)]):_vm._e()}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.post.media.length>0)?_c('div',{staticClass:"defaultblock"},[(_vm.listed)?_c('div',[_c('h4',{staticClass:"text-white"},[_vm._v("\n      "+_vm._s(_vm.post.title)+"\n      "),(_vm.loading)?_c('span',{staticClass:"mdl-chip ",staticStyle:{"vertical-align":"middle"}},[_c('span',{staticClass:"mdl-chip__text"},[_vm._v("壓縮中")])]):_c('button',{staticClass:"mdl-chip",staticStyle:{"vertical-align":"middle"},on:{"click":_vm.download}},[_c('span',{staticClass:"mdl-chip__text"},[_vm._v("下載本文圖片")])])])]):_vm._e(),_vm._v(" "),_c('div',{style:(_vm.style)},_vm._l((_vm.post.media),function(image,index){return _c('a',{key:_vm.post.id+'-'+index,attrs:{"href":'https://www.dcard.tw/f/'+_vm.post.forumAlias+'/p/'+_vm.post.id,"target":"_blank","title":_vm.post.title}},[_c('div',{staticClass:"imgBlock mdl-card lazyload",style:({'background': 'url("'+image.url+'") center center / cover'}),attrs:{"data-src":image.url}},[_c('div',{staticClass:"mdl-card__title mdl-card--expand"}),_vm._v(" "),_c('div',{class:{'mdl-card__actions':!_vm.listed||image.floor!=undefined}},[(!_vm.listed)?_c('span',[_vm._v(_vm._s(_vm.post.title))]):_vm._e(),_vm._v(" "),(image.floor!=undefined)?_c('span',[_vm._v("#B"+_vm._s(image.floor))]):_vm._e()])])])}),0)]):_vm._e()}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -9414,7 +9427,7 @@ module.exports = {
     return {
       loading: true,
       button: false,
-      postLimit: 15,
+      postLimit: 10,
       posts: [],
       end: {
         enabled: false,
@@ -9487,7 +9500,10 @@ module.exports = {
         .then(res => {
           //maybe push is more faster
           //this.posts = res.data;
-          res.data.forEach(p => {
+          res.data.map(p => {
+            p.media.map(image=>{
+              image.url = (image.url.indexOf(`imgur`)>-1?image.url.replace(`.jpg`,`m.jpg`):image.url).replace(`https`,`http`).replace(`http`,`https`);
+            })
             this.posts.push(p);
           });
           this.loading = false; //結束更新動畫
@@ -9515,9 +9531,10 @@ module.exports = {
         axios
           .get(api)
           .then(res => {
-            //maybe push is more faster
-            //this.posts = this.posts.concat(res.data);
-            res.data.forEach(p => {
+            res.data.map(p => {
+              p.media.map(image=>{
+              image.url = (image.url.indexOf(`imgur`)>-1?image.url.replace(`.jpg`,`m.jpg`):image.url).replace(`https`,`http`).replace(`http`,`https`);
+            })
               this.posts.push(p);
             });
             this.loading = false; //結束更新動畫

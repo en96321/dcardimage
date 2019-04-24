@@ -43,7 +43,7 @@ module.exports = {
     return {
       loading: true,
       button: false,
-      postLimit: 15,
+      postLimit: 10,
       posts: [],
       end: {
         enabled: false,
@@ -116,7 +116,10 @@ module.exports = {
         .then(res => {
           //maybe push is more faster
           //this.posts = res.data;
-          res.data.forEach(p => {
+          res.data.map(p => {
+            p.media.map(image=>{
+              image.url = (image.url.indexOf(`imgur`)>-1?image.url.replace(`.jpg`,`m.jpg`):image.url).replace(`https`,`http`).replace(`http`,`https`);
+            })
             this.posts.push(p);
           });
           this.loading = false; //結束更新動畫
@@ -144,9 +147,10 @@ module.exports = {
         axios
           .get(api)
           .then(res => {
-            //maybe push is more faster
-            //this.posts = this.posts.concat(res.data);
-            res.data.forEach(p => {
+            res.data.map(p => {
+              p.media.map(image=>{
+              image.url = (image.url.indexOf(`imgur`)>-1?image.url.replace(`.jpg`,`m.jpg`):image.url).replace(`https`,`http`).replace(`http`,`https`);
+            })
               this.posts.push(p);
             });
             this.loading = false; //結束更新動畫
