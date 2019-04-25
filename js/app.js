@@ -9290,12 +9290,6 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 module.exports = {
   name: "d-siadebar",
@@ -9334,7 +9328,7 @@ module.exports = {
   },
   watch: {
     "$route.params.forum": function() {
-      this.$emit("changeTitle", this.title);
+      this.$emit('changeTitle',this.title);
     }
   },
   computed: {
@@ -9343,16 +9337,22 @@ module.exports = {
         return list.alias == this.$route.params.forum;
       });
       return f == undefined ? "全部" : f.name;
+    },
+    forums() {
+      return this.search == ""
+        ? this.forum.lists
+        : this.forum.lists.filter(val => {
+            return (
+              val.alias.indexOf(this.search) > -1 ||
+              val.name.indexOf(this.search) > -1
+            );
+          });
     }
   },
   created() {
     this.getForums();
   },
   methods: {
-    s(){
-      console.log("ss");
-      this.$router.push('/'+this.$route.params.forum+'/search/'+this.search);
-    },
     getForums() {
       this.forum.status = "loading";
       this.forum.lists = [
@@ -9363,7 +9363,7 @@ module.exports = {
         .then(res => {
           this.forum.status = "success";
           this.forum.lists = this.forum.lists.concat(res.data);
-          this.$emit("changeTitle", this.title);
+           this.$emit('changeTitle',this.title);
         })
         .catch(error => {
           this.forum.status = "error";
@@ -9376,7 +9376,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('form',{staticClass:"mdl-chip mdl-chip--contact mdl-chip--deletable",attrs:{"id":"searchBox"},on:{"submit":function($event){$event.preventDefault();return _vm.s($event)}}},[_vm._m(0),_vm._v(" "),_c('span',{staticClass:"mdl-chip__text"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.search),expression:"search"}],staticClass:"mdl-textfield__input",attrs:{"type":"text","id":"search"},domProps:{"value":(_vm.search)},on:{"input":function($event){if($event.target.composing){ return; }_vm.search=$event.target.value}}})])]),_vm._v(" "),_c('div',{staticStyle:{"overflow-x":"scroll","display":"inline-flex","margin-bottom":"-14px","padding-bottom":"5px","width":"100%"}},_vm._l((_vm.defaultForums),function(item,index){return _c('router-link',{key:index,staticClass:"mdl-button mdl-js-button mdl-button mdl-js-ripple-effect speedDial mdl-color-text--primary",attrs:{"to":'/'+item.alias}},[_vm._v("#"+_vm._s(item.label))])}),1),_vm._v(" "),_c('hr'),_vm._v(" "),_c('nav',{staticClass:"mdl-navigation",attrs:{"id":"nav"}},[_c('div',{staticClass:"mdl-progress mdl-js-progress mdl-progress__indeterminate",staticStyle:{"margin-top":"-16px"},style:({display:_vm.forum.status=='loading'?'block':'none'})}),_vm._v(" "),(_vm.forum.status=='loading')?void 0:(_vm.forum.status=='error')?[_c('button',{staticClass:"mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-button--colored",staticStyle:{"margin":"0px auto"},on:{"click":_vm.getForums}},[_c('i',{staticClass:"material-icons"},[_vm._v("refresh")])])]:_vm._l((_vm.forum.lists),function(forum,index){return _c('router-link',{key:index,staticClass:"mdl-navigation__link",attrs:{"to":'/'+forum.alias}},[_vm._v("\n        "+_vm._s(forum.name)+"\n        "),(forum.isSchool)?_c('i',{staticClass:"material-icons miniIcon"},[_vm._v("school")]):_vm._e(),_vm._v(" "),(forum.invisible)?_c('i',{staticClass:"material-icons miniIcon"},[_vm._v("visibility_off")]):_vm._e()])})],2)])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{staticClass:"mdl-chip mdl-chip--contact mdl-chip--deletable",attrs:{"id":"searchBox"}},[_vm._m(0),_vm._v(" "),_c('span',{staticClass:"mdl-chip__text"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.search),expression:"search"}],staticClass:"mdl-textfield__input",attrs:{"type":"text","id":"search"},domProps:{"value":(_vm.search)},on:{"input":function($event){if($event.target.composing){ return; }_vm.search=$event.target.value}}})])]),_vm._v(" "),_c('div',{staticStyle:{"overflow-x":"scroll","display":"inline-flex","margin-bottom":"-14px","padding-bottom":"5px","width":"100%"}},_vm._l((_vm.defaultForums),function(item,index){return _c('router-link',{key:index,staticClass:"mdl-button mdl-js-button mdl-button mdl-js-ripple-effect speedDial mdl-color-text--primary",attrs:{"to":'/'+item.alias}},[_vm._v("#"+_vm._s(item.label))])}),1),_vm._v(" "),_c('hr'),_vm._v(" "),_c('nav',{staticClass:"mdl-navigation",attrs:{"id":"nav"}},[_c('div',{staticClass:"mdl-progress mdl-js-progress mdl-progress__indeterminate",staticStyle:{"margin-top":"-16px"},style:({display:_vm.forum.status=='loading'?'block':'none'})}),_vm._v(" "),(_vm.forum.status=='loading')?void 0:(_vm.forum.status=='error')?[_c('button',{staticClass:"mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-button--colored",staticStyle:{"margin":"0px auto"},on:{"click":_vm.getForums}},[_c('i',{staticClass:"material-icons"},[_vm._v("refresh")])])]:_vm._l((_vm.forums),function(forum,index){return _c('router-link',{key:index,staticClass:"mdl-navigation__link",attrs:{"to":'/'+forum.alias}},[_vm._v("\n        "+_vm._s(forum.name)+"\n        "),(forum.isSchool)?_c('i',{staticClass:"material-icons miniIcon"},[_vm._v("school")]):_vm._e(),_vm._v(" "),(forum.invisible)?_c('i',{staticClass:"material-icons miniIcon"},[_vm._v("visibility_off")]):_vm._e()])})],2)])}
 __vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{staticClass:"mdl-chip__contact mdl-color--primary mdl-color-text--white"},[_c('i',{staticClass:"material-icons"},[_vm._v("search")])])}]
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -9456,10 +9456,6 @@ module.exports = {
     this.selectForum();
   },
   watch: {
-    //監控搜尋
-    "$route.params.keyword": function() {
-      this.selectForum();
-    },
     //監控板塊變更
     "$route.params.forum": function() {
       this.selectForum();
@@ -9500,19 +9496,13 @@ module.exports = {
       this.loading = true; //表示更新動畫
       this.button = false; //禁止按鈕
       let forum = this.$route.params.forum;
-      let keyword = this.$route.params.keyword;
       let api = `https://www.dcard.tw/_api/forums/${forum}/posts?limit=${
         this.postLimit
       }&popular=${this.status.popular}`;
-      if(keyword!=undefined) api =  `https://www.dcard.tw/_api/search/posts?query=${keyword}&limit=100&forum=${forum}`;
       if (forum == "all" || forum == undefined)
-        if(keyword==undefined){
-          api = `https://www.dcard.tw/_api/posts?limit=${
+        api = `https://www.dcard.tw/_api/posts?limit=${
           this.postLimit
         }&popular=${this.status.popular}`;
-        }else{
-          api = `https://www.dcard.tw/_api/search/posts?query=${keyword}&limit=100`;
-        }
       axios
         .get(api)
         .then(res => {
@@ -9538,19 +9528,13 @@ module.exports = {
       let lastId =
         this.posts.length > 0 ? this.posts[this.posts.length - 1].id : 0;
       let forum = this.$route.params.forum;
-      let keyword = this.$route.params.keyword;
       let api = `https://www.dcard.tw/_api/forums/${forum}/posts?limit=${
         this.postLimit
       }&popular=${this.status.popular}&&before=${lastId}`;
-      if(keyword!=undefined) api =  `https://www.dcard.tw/_api/search/posts?query=${keyword}&limit=100&forum=${forum}`;
       if (forum == "all" || forum == undefined)
-        if(keyword==undefined){
-          api = `https://www.dcard.tw/_api/posts?limit=${
+        api = `https://www.dcard.tw/_api/posts?limit=${
           this.postLimit
-        }&popular=${this.status.popular}`;
-        }else{
-          api = `https://www.dcard.tw/_api/search/posts?query=${keyword}&limit=100`;
-        }
+        }&popular=${this.status.popular}&&before=${lastId}`;
       if (lastId > 0)
         axios
           .get(api)
