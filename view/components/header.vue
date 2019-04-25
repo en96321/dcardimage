@@ -51,6 +51,7 @@
           </div>
         </nav>
       </div>
+    </div>
     </header>
 </template>
 <script>

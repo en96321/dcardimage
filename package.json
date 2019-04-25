@@ -8,9 +8,9 @@
   },
   "dependencies": {
     "browserify": "^16.2.3",
+    "uglify-es": "^3.3.9",
     "vue": "^2.6.10",
-    "vueify": "^9.4.1",
-    "uglify-es": "^3.3.9"
+    "vueify": "^9.4.1"
   },
   "devDependencies": {},
   "scripts": {
@@ -21,8 +21,11 @@
     "url": "git+https://github.com/en96321/dcardimage.git"
   },
   "keywords": [
-    "gate",
-    "private"
+    "dcard",
+    "image",
+    "dcard圖片",
+    "dcard圖片庫",
+    "迪卡"
   ],
   "author": "pedroyang",
   "license": "ISC",

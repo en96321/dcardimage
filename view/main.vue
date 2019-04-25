@@ -64,6 +64,10 @@ module.exports = {
     this.selectForum();
   },
   watch: {
+    //監控搜尋
+    "$route.params.keyword": function() {
+      this.selectForum();
+    },
     //監控板塊變更
     "$route.params.forum": function() {
       this.selectForum();
@@ -104,13 +108,19 @@ module.exports = {
       this.loading = true; //表示更新動畫
       this.button = false; //禁止按鈕
       let forum = this.$route.params.forum;
+      let keyword = this.$route.params.keyword;
       let api = `https://www.dcard.tw/_api/forums/${forum}/posts?limit=${
         this.postLimit
       }&popular=${this.status.popular}`;
+      if(keyword!=undefined) api =  `https://www.dcard.tw/_api/search/posts?query=${keyword}&limit=100&forum=${forum}`;
       if (forum == "all" || forum == undefined)
-        api = `https://www.dcard.tw/_api/posts?limit=${
+        if(keyword==undefined){
+          api = `https://www.dcard.tw/_api/posts?limit=${
           this.postLimit
         }&popular=${this.status.popular}`;
+        }else{
+          api = `https://www.dcard.tw/_api/search/posts?query=${keyword}&limit=100`;
+        }
       axios
         .get(api)
         .then(res => {
@@ -136,13 +146,19 @@ module.exports = {
       let lastId =
         this.posts.length > 0 ? this.posts[this.posts.length - 1].id : 0;
       let forum = this.$route.params.forum;
+      let keyword = this.$route.params.keyword;
       let api = `https://www.dcard.tw/_api/forums/${forum}/posts?limit=${
         this.postLimit
       }&popular=${this.status.popular}&&before=${lastId}`;
+      if(keyword!=undefined) api =  `https://www.dcard.tw/_api/search/posts?query=${keyword}&limit=100&forum=${forum}`;
       if (forum == "all" || forum == undefined)
-        api = `https://www.dcard.tw/_api/posts?limit=${
+        if(keyword==undefined){
+          api = `https://www.dcard.tw/_api/posts?limit=${
           this.postLimit
-        }&popular=${this.status.popular}&&before=${lastId}`;
+        }&popular=${this.status.popular}`;
+        }else{
+          api = `https://www.dcard.tw/_api/search/posts?query=${keyword}&limit=100`;
+        }
       if (lastId > 0)
         axios
           .get(api)

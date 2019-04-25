@@ -3,15 +3,12 @@
     <div v-if="listed">
       <h4 class="text-white">
         {{post.title}}
-        <span class="mdl-chip "   style="vertical-align: middle;" v-if="loading">
-            <span class="mdl-chip__text">壓縮中</span>
+        <span class="mdl-chip" style="vertical-align: middle;" v-if="loading">
+          <span class="mdl-chip__text">壓縮中</span>
         </span>
-        <button
-          v-else
-          class="mdl-chip"
-          style="vertical-align: middle;"
-          @click="download"
-        ><span class="mdl-chip__text" >下載本文圖片</span></button>
+        <button v-else class="mdl-chip" style="vertical-align: middle;" @click="download">
+          <span class="mdl-chip__text">下載本文圖片</span>
+        </button>
       </h4>
     </div>
     <div :style="style">
@@ -22,7 +19,7 @@
         target="_blank"
         :title="post.title"
       >
-      <!--<div class="mdl-card imgBlock ">
+        <!--<div class="mdl-card imgBlock ">
         <div class="mdl-card__media">
           <img :src="(image.url.indexOf('imgur')>-1? image.url.replace('.jpg','m.jpg'):image.url).replace('https','http').replace('http','https')" height="320" border="0" :alt="post.title">
         </div>
@@ -30,8 +27,8 @@
             <span v-if="!listed">{{post.title}}</span>
             <span v-if="image.floor!=undefined">#B{{image.floor}}</span>
           </div>
-      </div>-->
-        
+        </div>-->
+
         <div
           class="imgBlock mdl-card lazyload"
           :data-src="image.url"
@@ -79,20 +76,25 @@ module.exports = {
       axios
         .get(api)
         .then(res => {
-          if (res.status == 200){
-            res.data.map(c=>{
+          if (res.status == 200) {
+            res.data.map(c => {
               c.mediaMeta
                 .filter(img => {
                   return img.type == "image/imgur";
                 })
                 .map(el => {
                   el.floor = c.floor;
-                  el.url=(el.url.indexOf(`imgur`)>-1?el.url.replace(`.jpg`,`m.jpg`):el.url).replace(`https`,`http`).replace(`http`,`https`);
+                  el.url = (el.url.indexOf(`imgur`) > -1
+                    ? el.url.replace(`.jpg`, `m.jpg`)
+                    : el.url
+                  )
+                    .replace(`https`, `http`)
+                    .replace(`http`, `https`);
                   this.post.media.push(el);
-                })
-            })  
-          floor += this.commentLimit;
-          if (floor < post.commentCount) this.getCommentsImages(post, floor);
+                });
+            });
+            floor += this.commentLimit;
+            if (floor < post.commentCount) this.getCommentsImages(post, floor);
           }
         })
         .catch(err => {
@@ -104,27 +106,31 @@ module.exports = {
       this.loading = true;
       let zip = new JSZip();
       let getImages = [];
-      this.post.media.map(image=>{
+      this.post.media.map(image => {
         getImages.push(
-          axios.get(image.url.replace(`https`,`http`).replace(`http`,`https`), {
-            responseType: "arraybuffer"
-          })
+          axios.get(
+            image.url.replace(`https`, `http`).replace(`http`, `https`),
+            {
+              responseType: "arraybuffer"
+            }
+          )
         );
-      })
-      axios.all(getImages).then(res => {
-        res.map((image,index)=>{
-          zip.file(index + ".jpg", image.data);
-        })
-        for(i=0;i<res.length;i++){
-          
-        }
-        zip.generateAsync({ type: "blob" }).then(content => {
-          this.loading = false;
-          saveAs(content, this.post.id + ".zip");
-        });
-      }).catch(err=>{
-        this.loading = false;
       });
+      axios
+        .all(getImages)
+        .then(res => {
+          res.map((image, index) => {
+            zip.file(index + ".jpg", image.data);
+          });
+          for (i = 0; i < res.length; i++) {}
+          zip.generateAsync({ type: "blob" }).then(content => {
+            this.loading = false;
+            saveAs(content, this.post.id + ".zip");
+          });
+        })
+        .catch(err => {
+          this.loading = false;
+        });
     }
   }
 };
