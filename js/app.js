@@ -9043,13 +9043,27 @@ if (process.env.NODE_ENV === 'production') {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 module.exports = {
   name: "d-article",
   props: ["comment", "listed", "post"],
   data() {
     return {
-      loading: false,
+      downloading: {
+        status:false,
+        success:0,
+        max:0
+      },
       commentLimit: 100
     };
   },
@@ -9077,11 +9091,16 @@ module.exports = {
         .then(res => {
           if (res.status == 200) {
             res.data.map(c => {
-              c.mediaMeta
-                .filter(img => {
-                  return img.type == "image/imgur";
-                })
-                .map(el => {
+              if (c.content != null) {
+                if (c.content.indexOf("ppt.cc") > -1) this.post.pptcc = true;
+                if (c.content.indexOf("vimeo.com") > -1) this.post.vimeo = true;
+              }
+              c.mediaMeta.map(el => {
+                if (el.url.indexOf(`vivid.dcard.tw`) > -1) {
+                  el.isVideo = true;
+                  this.post.media.push(el);
+                }
+                if (el.type == "image/imgur") {
                   el.floor = c.floor;
                   el.url = (el.url.indexOf(`imgur`) > -1
                     ? el.url.replace(`.jpg`, `m.jpg`)
@@ -9090,7 +9109,8 @@ module.exports = {
                     .replace(`https`, `http`)
                     .replace(`http`, `https`);
                   this.post.media.push(el);
-                });
+                }
+              });
             });
             floor += this.commentLimit;
             if (floor < post.commentCount) this.getCommentsImages(post, floor);
@@ -9102,33 +9122,40 @@ module.exports = {
     },
     //下載圖片
     download() {
-      this.loading = true;
+      this.downloading.status = true;
+      this.downloading.success = 0;
       let zip = new JSZip();
       let getImages = [];
+      let datas = [];
       this.post.media.map(image => {
-        getImages.push(
-          axios.get(
-            image.url.replace(`https`, `http`).replace(`http`, `https`),
-            {
-              responseType: "arraybuffer"
-            }
-          )
-        );
+        if (image.url.indexOf("vivid.dcard.tw") < 0)
+          getImages.push(
+            axios.get(
+              image.url.replace(`https`, `http`).replace(`http`, `https`),
+              {
+                responseType: "arraybuffer"
+              }
+            ).then(res=>{
+              this.downloading.success++;
+              datas.push(res);
+            })
+          );
       });
+      this.downloading.max = getImages.length;
       axios
         .all(getImages)
         .then(res => {
-          res.map((image, index) => {
+          datas.map((image, index) => {
             zip.file(index + ".jpg", image.data);
           });
           for (i = 0; i < res.length; i++) {}
           zip.generateAsync({ type: "blob" }).then(content => {
-            this.loading = false;
+            this.downloading.status = false;
             saveAs(content, this.post.id + ".zip");
           });
         })
         .catch(err => {
-          this.loading = false;
+          this.downloading.status = false;
         });
     }
   }
@@ -9138,7 +9165,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.post.media.length>0)?_c('div',{staticClass:"defaultblock"},[(_vm.listed)?_c('div',[_c('h4',{staticClass:"text-white"},[_vm._v("\n      "+_vm._s(_vm.post.title)+"\n      "),(_vm.loading)?_c('span',{staticClass:"mdl-chip",staticStyle:{"vertical-align":"middle"}},[_c('span',{staticClass:"mdl-chip__text"},[_vm._v("壓縮中")])]):_c('button',{staticClass:"mdl-chip",staticStyle:{"vertical-align":"middle"},on:{"click":_vm.download}},[_c('span',{staticClass:"mdl-chip__text"},[_vm._v("下載本文圖片")])])])]):_vm._e(),_vm._v(" "),_c('div',{style:(_vm.style)},_vm._l((_vm.post.media),function(image,index){return _c('a',{key:_vm.post.id+'-'+index,attrs:{"href":'https://www.dcard.tw/f/'+_vm.post.forumAlias+'/p/'+_vm.post.id,"target":"_blank","title":_vm.post.title}},[_c('div',{staticClass:"imgBlock mdl-card lazyload",style:({'background': 'url("'+image.url+'") center center / cover'}),attrs:{"data-src":image.url}},[_c('div',{staticClass:"mdl-card__title mdl-card--expand"}),_vm._v(" "),_c('div',{class:{'mdl-card__actions':!_vm.listed||image.floor!=undefined}},[(!_vm.listed)?_c('span',[_vm._v(_vm._s(_vm.post.title))]):_vm._e(),_vm._v(" "),(image.floor!=undefined)?_c('span',[_vm._v("#B"+_vm._s(image.floor))]):_vm._e()])])])}),0)]):_vm._e()}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.post.media.length>0)?_c('div',{staticClass:"defaultblock"},[(_vm.listed)?_c('div',[_c('h4',{staticClass:"text-white"},[_vm._v("\n      "+_vm._s(_vm.post.title)+"\n      "),(_vm.post.pptcc)?_c('span',{staticClass:"mdl-chip",staticStyle:{"vertical-align":"middle"}},[_c('span',{staticClass:"mdl-chip__text"},[_vm._v("ptt.cc")])]):_vm._e(),_vm._v(" "),(_vm.post.viemo)?_c('span',{staticClass:"mdl-chip",staticStyle:{"vertical-align":"middle"}},[_c('span',{staticClass:"mdl-chip__text"},[_vm._v("vimeo")])]):_vm._e(),_vm._v(" "),(_vm.downloading.status)?_c('span',{staticClass:"mdl-chip",staticStyle:{"vertical-align":"middle"}},[_c('span',{staticClass:"mdl-chip__text"},[_vm._v("壓縮中("+_vm._s(_vm.downloading.success)+"/"+_vm._s(_vm.downloading.max)+")")])]):_c('button',{staticClass:"mdl-chip",staticStyle:{"vertical-align":"middle"},on:{"click":_vm.download}},[_c('span',{staticClass:"mdl-chip__text"},[_vm._v("下載本文圖片")])])])]):_vm._e(),_vm._v(" "),_c('div',{style:(_vm.style)},[_vm._l((_vm.post.media),function(image,index){return [(image.isVideo)?_c('div',{key:_vm.post.id+'-'+index,staticClass:"imgBlock mdl-card"},[_c('div',{staticClass:"mdl-card__title mdl-card--expand",staticStyle:{"padding":"0px"}},[_c('video',{attrs:{"width":"320","height":"269","controls":""}},[_c('source',{attrs:{"src":image.url.replace('thumbnail.jpg','source'),"type":"video/mp4"}})])]),_vm._v(" "),_c('div',{staticClass:"mdl-card__actions text-white"},[(!_vm.listed)?_c('span',[_vm._v(_vm._s(_vm.post.title))]):_vm._e(),_vm._v(" "),(image.floor!=undefined)?_c('span',[_vm._v("#B"+_vm._s(image.floor))]):_vm._e(),_vm._v(" "),(image.isVideo)?_c('span',[_vm._v("#影片")]):_vm._e()])]):_c('a',{key:_vm.post.id+'-'+index,attrs:{"href":'https://www.dcard.tw/f/'+_vm.post.forumAlias+'/p/'+_vm.post.id,"target":"_blank","title":_vm.post.title}},[_c('div',{staticClass:"imgBlock mdl-card",style:({'background': 'url("'+image.url+'") center center / cover'})},[_c('div',{staticClass:"mdl-card__title mdl-card--expand"}),_vm._v(" "),_c('div',{class:{'mdl-card__actions':!_vm.listed||image.floor!=undefined||image.isVideo}},[(!_vm.listed)?_c('span',[_vm._v(_vm._s(_vm.post.title))]):_vm._e(),_vm._v(" "),(image.floor!=undefined)?_c('span',[_vm._v("#B"+_vm._s(image.floor))]):_vm._e(),_vm._v(" "),(image.isVideo)?_c('span',[_vm._v("影片縮圖(前往連結觀賞)")]):_vm._e()])])])]})],2)]):_vm._e()}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -9503,12 +9530,19 @@ module.exports = {
       axios
         .get(api)
         .then(res => {
-          //maybe push is more faster
-          //this.posts = res.data;
           res.data.map(p => {
-            p.media.map(image=>{
-              image.url = (image.url.indexOf(`imgur`)>-1?image.url.replace(`.jpg`,`m.jpg`):image.url).replace(`https`,`http`).replace(`http`,`https`);
-            })
+            p.media.map(image => {
+              image.url = (image.url.indexOf(`imgur`) > -1
+                ? image.url.replace(`.jpg`, `m.jpg`)
+                : image.url
+              )
+                .replace(`https`, `http`)
+                .replace(`http`, `https`);
+                
+              if (image.url.indexOf("vivid.dcard.tw") > -1) {
+                image.isVideo = true;
+              }
+            });
             this.posts.push(p);
           });
           this.loading = false; //結束更新動畫
@@ -9537,9 +9571,18 @@ module.exports = {
           .get(api)
           .then(res => {
             res.data.map(p => {
-              p.media.map(image=>{
-              image.url = (image.url.indexOf(`imgur`)>-1?image.url.replace(`.jpg`,`m.jpg`):image.url).replace(`https`,`http`).replace(`http`,`https`);
-            })
+              p.media.map(image => {
+                image.url = (image.url.indexOf(`imgur`) > -1
+                  ? image.url.replace(`.jpg`, `m.jpg`)
+                  : image.url
+                )
+                  .replace(`https`, `http`)
+                  .replace(`http`, `https`);
+                
+                if (image.url.indexOf("vivid.dcard.tw") > -1) {
+                  image.isVideo = true;
+                }
+              });
               this.posts.push(p);
             });
             this.loading = false; //結束更新動畫

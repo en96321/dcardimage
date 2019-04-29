@@ -114,12 +114,19 @@ module.exports = {
       axios
         .get(api)
         .then(res => {
-          //maybe push is more faster
-          //this.posts = res.data;
           res.data.map(p => {
-            p.media.map(image=>{
-              image.url = (image.url.indexOf(`imgur`)>-1?image.url.replace(`.jpg`,`m.jpg`):image.url).replace(`https`,`http`).replace(`http`,`https`);
-            })
+            p.media.map(image => {
+              image.url = (image.url.indexOf(`imgur`) > -1
+                ? image.url.replace(`.jpg`, `m.jpg`)
+                : image.url
+              )
+                .replace(`https`, `http`)
+                .replace(`http`, `https`);
+                
+              if (image.url.indexOf("vivid.dcard.tw") > -1) {
+                image.isVideo = true;
+              }
+            });
             this.posts.push(p);
           });
           this.loading = false; //結束更新動畫
@@ -148,9 +155,18 @@ module.exports = {
           .get(api)
           .then(res => {
             res.data.map(p => {
-              p.media.map(image=>{
-              image.url = (image.url.indexOf(`imgur`)>-1?image.url.replace(`.jpg`,`m.jpg`):image.url).replace(`https`,`http`).replace(`http`,`https`);
-            })
+              p.media.map(image => {
+                image.url = (image.url.indexOf(`imgur`) > -1
+                  ? image.url.replace(`.jpg`, `m.jpg`)
+                  : image.url
+                )
+                  .replace(`https`, `http`)
+                  .replace(`http`, `https`);
+                
+                if (image.url.indexOf("vivid.dcard.tw") > -1) {
+                  image.isVideo = true;
+                }
+              });
               this.posts.push(p);
             });
             this.loading = false; //結束更新動畫
