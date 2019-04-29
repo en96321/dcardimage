@@ -126,6 +126,10 @@ img{
 .text-white{
     color:white
 }
+.videoBlock{
+    width:320px;
+    height:269px;
+}
 @media only screen and (max-width: 1610px) {
     .defaultblock {
         max-width: 1280px;
@@ -156,6 +160,10 @@ img{
     }
     .imgBlock{
         width:200px;
+    }
+    .videoBlock{
+        width:200px;
+        height:149px;
     }
     .endBlock{
         width: calc(100% - 2px);

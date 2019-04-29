@@ -116,7 +116,7 @@ module.exports = {
         .then(res => {
           res.data.map(p => {
             p.media.map(image => {
-              image.url = (image.url.indexOf(`imgur`) > -1
+              image.thumbnail = (image.url.indexOf(`imgur`) > -1
                 ? image.url.replace(`.jpg`, `m.jpg`)
                 : image.url
               )
@@ -156,7 +156,7 @@ module.exports = {
           .then(res => {
             res.data.map(p => {
               p.media.map(image => {
-                image.url = (image.url.indexOf(`imgur`) > -1
+                image.thumbnail = (image.url.indexOf(`imgur`) > -1
                   ? image.url.replace(`.jpg`, `m.jpg`)
                   : image.url
                 )

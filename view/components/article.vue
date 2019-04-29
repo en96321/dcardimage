@@ -21,7 +21,7 @@
       <template v-for="(image, index) in post.media">
         <div class="imgBlock mdl-card" v-if="image.isVideo" :key="post.id+'-'+index">
           <div class="mdl-card__title mdl-card--expand" style="padding:0px">
-            <video width="320" height="269" controls>
+            <video class="videoBlock" controls>
               <source :src="image.url.replace('thumbnail.jpg','source')" type="video/mp4">
             </video>
           </div>
@@ -40,7 +40,7 @@
         >
           <div
             class="imgBlock mdl-card"
-            :style="{'background': 'url(&quot;'+image.url+'&quot;) center center / cover'}"
+            :style="{'background': 'url(&quot;'+image.thumbnail+'&quot;) center center / cover'}"
           >
             <div class="mdl-card__title mdl-card--expand"></div>
             <div :class="{'mdl-card__actions':!listed||image.floor!=undefined||image.isVideo}">
@@ -61,9 +61,9 @@ module.exports = {
   data() {
     return {
       downloading: {
-        status:false,
-        success:0,
-        max:0
+        status: false,
+        success: 0,
+        max: 0
       },
       commentLimit: 100
     };
@@ -99,14 +99,13 @@ module.exports = {
               c.mediaMeta.map(el => {
                 if (el.url.indexOf(`vivid.dcard.tw`) > -1) {
                   el.isVideo = true;
+                  el.thumbnail = el.url;
                   this.post.media.push(el);
                 }
                 if (el.type == "image/imgur") {
                   el.floor = c.floor;
-                  el.url = (el.url.indexOf(`imgur`) > -1
-                    ? el.url.replace(`.jpg`, `m.jpg`)
-                    : el.url
-                  )
+                  el.thumbnail = el.url
+                    .replace(`.jpg`, `m.jpg`)
                     .replace(`https`, `http`)
                     .replace(`http`, `https`);
                   this.post.media.push(el);
@@ -131,15 +130,17 @@ module.exports = {
       this.post.media.map(image => {
         if (image.url.indexOf("vivid.dcard.tw") < 0)
           getImages.push(
-            axios.get(
-              image.url.replace(`https`, `http`).replace(`http`, `https`),
-              {
-                responseType: "arraybuffer"
-              }
-            ).then(res=>{
-              this.downloading.success++;
-              datas.push(res);
-            })
+            axios
+              .get(
+                image.url.replace(`https`, `http`).replace(`http`, `https`),
+                {
+                  responseType: "arraybuffer"
+                }
+              )
+              .then(res => {
+                this.downloading.success++;
+                datas.push(res);
+              })
           );
       });
       this.downloading.max = getImages.length;
