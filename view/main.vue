@@ -22,6 +22,13 @@
       :style="{display:loading?'block':'none'}"
     ></div>
     <button
+      @click="showHelp"
+      class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--primary loadmoreButton"
+      style="margin-bottom: 64px;background-color:rgba(196,206,52,1)"
+    >
+      <i class="material-icons">attach_money</i>
+    </button>
+    <button
       :disabled="!button"
       id="loadmore"
       @click="loadMore"
@@ -29,6 +36,31 @@
     >
       <i class="material-icons">keyboard_arrow_down</i>
     </button>
+    <dialog class="mdl-dialog" id="help" style="width: calc(100% - 100px);">
+      <h4 class="mdl-dialog__title">支持作者</h4>
+      <div class="mdl-dialog__content">
+        <div class="mdl-grid">
+          <div class="mdl-cell mdl-cell--6-col">
+            <p>透過點擊廣告幫助作者維護此網站</p>
+            <iframe
+              src="//ads.exdynsrv.com/iframe.php?idzone=3373751&size=250x250"
+              width="250"
+              height="250"
+              scrolling="no"
+              marginwidth="0"
+              marginheight="0"
+              frameborder="0"
+            ></iframe>
+          </div>
+          <div class="mdl-cell mdl-cell--6-col">
+            <p>或者您可以贊助我一杯咖啡的錢</p>
+          </div>
+        </div>
+      </div>
+      <div class="mdl-dialog__actions">
+        <button type="button" class="mdl-button close">關閉</button>
+      </div>
+    </dialog>
   </main>
 </template>
 <script>
@@ -78,6 +110,16 @@ module.exports = {
     }
   },
   methods: {
+    showHelp() {
+      var help = document.querySelector("#help");
+      if (!help.showModal) {
+        dialogPolyfill.registerDialog(help);
+      }
+      help.querySelector(".close").addEventListener("click", function() {
+        help.close();
+      });
+      help.showModal();
+    },
     scrolling() {
       let main = document.getElementById("page-content");
       let offset = main.scrollTop + window.innerHeight;
@@ -122,7 +164,7 @@ module.exports = {
               )
                 .replace(`https`, `http`)
                 .replace(`http`, `https`);
-                
+
               if (image.url.indexOf("vivid.dcard.tw") > -1) {
                 image.isVideo = true;
               }
@@ -162,7 +204,7 @@ module.exports = {
                 )
                   .replace(`https`, `http`)
                   .replace(`http`, `https`);
-                
+
                 if (image.url.indexOf("vivid.dcard.tw") > -1) {
                   image.isVideo = true;
                 }

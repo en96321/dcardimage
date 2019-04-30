@@ -9448,6 +9448,38 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 const article = require("./components/article.vue");
 module.exports = {
@@ -9495,6 +9527,16 @@ module.exports = {
     }
   },
   methods: {
+    showHelp() {
+      var help = document.querySelector("#help");
+      if (!help.showModal) {
+        dialogPolyfill.registerDialog(help);
+      }
+      help.querySelector(".close").addEventListener("click", function() {
+        help.close();
+      });
+      help.showModal();
+    },
     scrolling() {
       let main = document.getElementById("page-content");
       let offset = main.scrollTop + window.innerHeight;
@@ -9539,7 +9581,7 @@ module.exports = {
               )
                 .replace(`https`, `http`)
                 .replace(`http`, `https`);
-                
+
               if (image.url.indexOf("vivid.dcard.tw") > -1) {
                 image.isVideo = true;
               }
@@ -9579,7 +9621,7 @@ module.exports = {
                 )
                   .replace(`https`, `http`)
                   .replace(`http`, `https`);
-                
+
                 if (image.url.indexOf("vivid.dcard.tw") > -1) {
                   image.isVideo = true;
                 }
@@ -9609,8 +9651,8 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('main',{staticClass:"mdl-layout__content",attrs:{"id":"main"}},[_c('div',{staticClass:"page-content",attrs:{"id":"page-content"},on:{"&scroll":function($event){return _vm.scrolling($event)}}},[_vm._l((_vm.filterPosts),function(post){return _c('d-article',{key:post.id,attrs:{"comment":_vm.status.comment,"listed":_vm.status.listed,"post":post}})}),_vm._v(" "),(_vm.end.enabled)?_c('div',{staticClass:"defaultblock"},[_vm._m(0),_vm._v(" "),_c('div',{staticClass:"endBlock"},[_vm._v(_vm._s(_vm.end.label))])]):_vm._e()],2),_vm._v(" "),_c('div',{staticClass:"mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active loadbar",style:({display:_vm.loading?'block':'none'})}),_vm._v(" "),_c('button',{staticClass:"mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--primary loadmoreButton",attrs:{"disabled":!_vm.button,"id":"loadmore"},on:{"click":_vm.loadMore}},[_c('i',{staticClass:"material-icons"},[_vm._v("keyboard_arrow_down")])])])}
-__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h4',{staticStyle:{"color":"white"}},[_c('hr')])])}]
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('main',{staticClass:"mdl-layout__content",attrs:{"id":"main"}},[_c('div',{staticClass:"page-content",attrs:{"id":"page-content"},on:{"&scroll":function($event){return _vm.scrolling($event)}}},[_vm._l((_vm.filterPosts),function(post){return _c('d-article',{key:post.id,attrs:{"comment":_vm.status.comment,"listed":_vm.status.listed,"post":post}})}),_vm._v(" "),(_vm.end.enabled)?_c('div',{staticClass:"defaultblock"},[_vm._m(0),_vm._v(" "),_c('div',{staticClass:"endBlock"},[_vm._v(_vm._s(_vm.end.label))])]):_vm._e()],2),_vm._v(" "),_c('div',{staticClass:"mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active loadbar",style:({display:_vm.loading?'block':'none'})}),_vm._v(" "),_c('button',{staticClass:"mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--primary loadmoreButton",staticStyle:{"margin-bottom":"64px","background-color":"rgba(196,206,52,1)"},on:{"click":_vm.showHelp}},[_c('i',{staticClass:"material-icons"},[_vm._v("attach_money")])]),_vm._v(" "),_c('button',{staticClass:"mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--primary loadmoreButton",attrs:{"disabled":!_vm.button,"id":"loadmore"},on:{"click":_vm.loadMore}},[_c('i',{staticClass:"material-icons"},[_vm._v("keyboard_arrow_down")])]),_vm._v(" "),_vm._m(1)])}
+__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h4',{staticStyle:{"color":"white"}},[_c('hr')])])},function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('dialog',{staticClass:"mdl-dialog",staticStyle:{"width":"calc(100% - 100px)"},attrs:{"id":"help"}},[_c('h4',{staticClass:"mdl-dialog__title"},[_vm._v("支持作者")]),_vm._v(" "),_c('div',{staticClass:"mdl-dialog__content"},[_c('div',{staticClass:"mdl-grid"},[_c('div',{staticClass:"mdl-cell mdl-cell--6-col"},[_c('p',[_vm._v("透過點擊廣告幫助作者維護此網站")]),_vm._v(" "),_c('iframe',{attrs:{"src":"//ads.exdynsrv.com/iframe.php?idzone=3373751&size=250x250","width":"250","height":"250","scrolling":"no","marginwidth":"0","marginheight":"0","frameborder":"0"}})]),_vm._v(" "),_c('div',{staticClass:"mdl-cell mdl-cell--6-col"},[_c('p',[_vm._v("或者您可以贊助我一杯咖啡的錢")])])])]),_vm._v(" "),_c('div',{staticClass:"mdl-dialog__actions"},[_c('button',{staticClass:"mdl-button close",attrs:{"type":"button"}},[_vm._v("關閉")])])])}]
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
