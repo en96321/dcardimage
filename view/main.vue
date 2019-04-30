@@ -54,7 +54,7 @@
           </div>
           <div class="mdl-cell mdl-cell--6-col">
             <p>或者您可以贊助我一杯咖啡的錢</p>
-            <a href="https://p.ecpay.com.tw/224D9"><img src="https://payment.ecpay.com.tw/Content/themes/WebStyle20170517/images/ecgo.png" /></a>
+            <a href="https://p.ecpay.com.tw/43E07"><img src="https://payment.ecpay.com.tw/Content/themes/WebStyle20170517/images/ecgo.png" /></a>
           </div>
         </div>
       </div>
