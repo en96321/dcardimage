@@ -1,7 +1,7 @@
 <template>
     <header class="mdl-layout__header mdl-layout__header--transparent">
       <div class="mdl-layout__header-row">
-        <span class="mdl-layout-title">{{title}}</span>
+        <span class="mdl-layout-title">{{title}}{{search}}</span>
         <div class="mdl-layout-spacer"></div>
         <nav class="mdl-navigation" style="overflow: hidden;">
           <label
@@ -58,6 +58,11 @@
 module.exports = {
   name: "d-header",
   props:['status','title'],
+  data(){
+    return{
+      search:""
+    }
+  },
   computed: {
     icon() {
       return this.status.listed ? "view_stream" : "view_module";
@@ -66,9 +71,16 @@ module.exports = {
   watch: {
     "$route.params.search": function() {
       if (this.$route.params.search != undefined) {
-        this.title = '搜尋:'+this.$route.params.search;
+        this.search = '搜尋:'+this.$route.params.search;
+      }else{
+        this.search = "";
       }
     },
+  },
+  created() {
+    if (this.$route.params.search != undefined) {
+        this.search = '搜尋:'+this.$route.params.search;
+      }
   },
 };
 </script>

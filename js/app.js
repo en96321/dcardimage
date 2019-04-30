@@ -9085,7 +9085,7 @@ module.exports = {
   methods: {
     //讀取dcard一般留言
     getCommentsImages(post, floor) {
-      let api = `https://www.dcard.tw/_api/posts/${post.id}/comments?limit=${
+      let api = `https://cors-anywhere.herokuapp.com/https://www.dcard.tw/_api/posts/${post.id}/comments?limit=${
         this.commentLimit
       }&after=${floor}`;
       axios
@@ -9242,6 +9242,11 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
 module.exports = {
   name: "d-header",
   props:['status','title'],
+  data(){
+    return{
+      search:""
+    }
+  },
   computed: {
     icon() {
       return this.status.listed ? "view_stream" : "view_module";
@@ -9250,9 +9255,16 @@ module.exports = {
   watch: {
     "$route.params.search": function() {
       if (this.$route.params.search != undefined) {
-        this.title = '搜尋:'+this.$route.params.search;
+        this.search = '搜尋:'+this.$route.params.search;
+      }else{
+        this.search = "";
       }
     },
+  },
+  created() {
+    if (this.$route.params.search != undefined) {
+        this.search = '搜尋:'+this.$route.params.search;
+      }
   },
 };
 
@@ -9260,7 +9272,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('header',{staticClass:"mdl-layout__header mdl-layout__header--transparent"},[_c('div',{staticClass:"mdl-layout__header-row"},[_c('span',{staticClass:"mdl-layout-title"},[_vm._v(_vm._s(_vm.title))]),_vm._v(" "),_c('div',{staticClass:"mdl-layout-spacer"}),_vm._v(" "),_c('nav',{staticClass:"mdl-navigation",staticStyle:{"overflow":"hidden"}},[_c('label',{staticClass:"mdl-icon-toggle mdl-js-icon-toggle mdl-js-ripple-effect",attrs:{"for":"popular","title":"熱門"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.status.popular),expression:"status.popular"}],staticClass:"mdl-icon-toggle__input",attrs:{"type":"checkbox","id":"popular"},domProps:{"checked":Array.isArray(_vm.status.popular)?_vm._i(_vm.status.popular,null)>-1:(_vm.status.popular)},on:{"change":function($event){var $$a=_vm.status.popular,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=null,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.$set(_vm.status, "popular", $$a.concat([$$v])))}else{$$i>-1&&(_vm.$set(_vm.status, "popular", $$a.slice(0,$$i).concat($$a.slice($$i+1))))}}else{_vm.$set(_vm.status, "popular", $$c)}}}}),_vm._v(" "),_c('i',{staticClass:"mdl-icon-toggle__label material-icons"},[_vm._v("whatshot")])]),_vm._v(" "),_c('label',{staticClass:"mdl-icon-toggle mdl-js-icon-toggle mdl-js-ripple-effect",attrs:{"for":"pin","title":"置頂文章"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.status.pin),expression:"status.pin"}],staticClass:"mdl-icon-toggle__input",attrs:{"type":"checkbox","id":"pin"},domProps:{"checked":Array.isArray(_vm.status.pin)?_vm._i(_vm.status.pin,null)>-1:(_vm.status.pin)},on:{"change":function($event){var $$a=_vm.status.pin,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=null,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.$set(_vm.status, "pin", $$a.concat([$$v])))}else{$$i>-1&&(_vm.$set(_vm.status, "pin", $$a.slice(0,$$i).concat($$a.slice($$i+1))))}}else{_vm.$set(_vm.status, "pin", $$c)}}}}),_vm._v(" "),_c('i',{staticClass:"mdl-icon-toggle__label material-icons"},[_vm._v("grade")])]),_vm._v(" "),_c('label',{staticClass:"mdl-icon-toggle mdl-js-icon-toggle mdl-js-ripple-effect",attrs:{"title":"留言","for":"comment"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.status.comment),expression:"status.comment"}],staticClass:"mdl-icon-toggle__input",attrs:{"type":"checkbox","id":"comment"},domProps:{"checked":Array.isArray(_vm.status.comment)?_vm._i(_vm.status.comment,null)>-1:(_vm.status.comment)},on:{"change":function($event){var $$a=_vm.status.comment,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=null,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.$set(_vm.status, "comment", $$a.concat([$$v])))}else{$$i>-1&&(_vm.$set(_vm.status, "comment", $$a.slice(0,$$i).concat($$a.slice($$i+1))))}}else{_vm.$set(_vm.status, "comment", $$c)}}}}),_vm._v(" "),_c('i',{staticClass:"mdl-icon-toggle__label material-icons"},[_vm._v("comment")])]),_vm._v(" "),_c('label',{staticClass:"mdl-icon-toggle mdl-js-icon-toggle mdl-js-ripple-effect",attrs:{"title":"模式","for":"mode"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.status.listed),expression:"status.listed"}],staticClass:"mdl-icon-toggle__input",attrs:{"type":"checkbox","id":"mode"},domProps:{"checked":Array.isArray(_vm.status.listed)?_vm._i(_vm.status.listed,null)>-1:(_vm.status.listed)},on:{"change":function($event){var $$a=_vm.status.listed,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=null,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.$set(_vm.status, "listed", $$a.concat([$$v])))}else{$$i>-1&&(_vm.$set(_vm.status, "listed", $$a.slice(0,$$i).concat($$a.slice($$i+1))))}}else{_vm.$set(_vm.status, "listed", $$c)}}}}),_vm._v(" "),_c('i',{staticClass:"mdl-icon-toggle__label material-icons mdl-color-text--primary"},[_vm._v(_vm._s(_vm.icon))])]),_vm._v(" "),_vm._m(0)])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('header',{staticClass:"mdl-layout__header mdl-layout__header--transparent"},[_c('div',{staticClass:"mdl-layout__header-row"},[_c('span',{staticClass:"mdl-layout-title"},[_vm._v(_vm._s(_vm.title)+_vm._s(_vm.search))]),_vm._v(" "),_c('div',{staticClass:"mdl-layout-spacer"}),_vm._v(" "),_c('nav',{staticClass:"mdl-navigation",staticStyle:{"overflow":"hidden"}},[_c('label',{staticClass:"mdl-icon-toggle mdl-js-icon-toggle mdl-js-ripple-effect",attrs:{"for":"popular","title":"熱門"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.status.popular),expression:"status.popular"}],staticClass:"mdl-icon-toggle__input",attrs:{"type":"checkbox","id":"popular"},domProps:{"checked":Array.isArray(_vm.status.popular)?_vm._i(_vm.status.popular,null)>-1:(_vm.status.popular)},on:{"change":function($event){var $$a=_vm.status.popular,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=null,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.$set(_vm.status, "popular", $$a.concat([$$v])))}else{$$i>-1&&(_vm.$set(_vm.status, "popular", $$a.slice(0,$$i).concat($$a.slice($$i+1))))}}else{_vm.$set(_vm.status, "popular", $$c)}}}}),_vm._v(" "),_c('i',{staticClass:"mdl-icon-toggle__label material-icons"},[_vm._v("whatshot")])]),_vm._v(" "),_c('label',{staticClass:"mdl-icon-toggle mdl-js-icon-toggle mdl-js-ripple-effect",attrs:{"for":"pin","title":"置頂文章"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.status.pin),expression:"status.pin"}],staticClass:"mdl-icon-toggle__input",attrs:{"type":"checkbox","id":"pin"},domProps:{"checked":Array.isArray(_vm.status.pin)?_vm._i(_vm.status.pin,null)>-1:(_vm.status.pin)},on:{"change":function($event){var $$a=_vm.status.pin,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=null,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.$set(_vm.status, "pin", $$a.concat([$$v])))}else{$$i>-1&&(_vm.$set(_vm.status, "pin", $$a.slice(0,$$i).concat($$a.slice($$i+1))))}}else{_vm.$set(_vm.status, "pin", $$c)}}}}),_vm._v(" "),_c('i',{staticClass:"mdl-icon-toggle__label material-icons"},[_vm._v("grade")])]),_vm._v(" "),_c('label',{staticClass:"mdl-icon-toggle mdl-js-icon-toggle mdl-js-ripple-effect",attrs:{"title":"留言","for":"comment"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.status.comment),expression:"status.comment"}],staticClass:"mdl-icon-toggle__input",attrs:{"type":"checkbox","id":"comment"},domProps:{"checked":Array.isArray(_vm.status.comment)?_vm._i(_vm.status.comment,null)>-1:(_vm.status.comment)},on:{"change":function($event){var $$a=_vm.status.comment,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=null,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.$set(_vm.status, "comment", $$a.concat([$$v])))}else{$$i>-1&&(_vm.$set(_vm.status, "comment", $$a.slice(0,$$i).concat($$a.slice($$i+1))))}}else{_vm.$set(_vm.status, "comment", $$c)}}}}),_vm._v(" "),_c('i',{staticClass:"mdl-icon-toggle__label material-icons"},[_vm._v("comment")])]),_vm._v(" "),_c('label',{staticClass:"mdl-icon-toggle mdl-js-icon-toggle mdl-js-ripple-effect",attrs:{"title":"模式","for":"mode"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.status.listed),expression:"status.listed"}],staticClass:"mdl-icon-toggle__input",attrs:{"type":"checkbox","id":"mode"},domProps:{"checked":Array.isArray(_vm.status.listed)?_vm._i(_vm.status.listed,null)>-1:(_vm.status.listed)},on:{"change":function($event){var $$a=_vm.status.listed,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=null,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.$set(_vm.status, "listed", $$a.concat([$$v])))}else{$$i>-1&&(_vm.$set(_vm.status, "listed", $$a.slice(0,$$i).concat($$a.slice($$i+1))))}}else{_vm.$set(_vm.status, "listed", $$c)}}}}),_vm._v(" "),_c('i',{staticClass:"mdl-icon-toggle__label material-icons mdl-color-text--primary"},[_vm._v(_vm._s(_vm.icon))])]),_vm._v(" "),_vm._m(0)])])])}
 __vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"mdl-navigation__link mdl-color--accent",staticStyle:{"margin-left":"16px"}},[_c('h6',{staticStyle:{"font-weight":"bolder"}},[_vm._v("D卡圖片庫")])])}]
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -9484,6 +9496,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
 //
 //
 //
+//
 
 const article = require("./components/article.vue");
 module.exports = {
@@ -9501,7 +9514,9 @@ module.exports = {
       end: {
         enabled: false,
         label: "沒有更多文章了"
-      }
+      },
+      searchBaseAPI:'https://cors-anywhere.herokuapp.com/https://www.dcard.tw/_api/search/posts',
+      defaultBaseAPI:'https://cors-anywhere.herokuapp.com/https://www.dcard.tw/_api'
     };
   },
   computed: {
@@ -9576,11 +9591,11 @@ module.exports = {
       this.loading = true; //表示更新動畫
       this.button = false; //禁止按鈕
       let forum = this.$route.params.forum;
-      let api = `https://dcardimage.azurewebsites.net/search.php?limit=${this.postLimit}&since=0&query=${
+      let api = `${this.searchBaseAPI}?limit=${this.postLimit}&since=0&query=${
         this.$route.params.search
       }&offset=0`;
       if (forum != undefined && forum != "all")
-        api = `https://dcardimage.azurewebsites.net/search.php?limit=${this.postLimit}&since=0&query=${
+        api = `${this.searchBaseAPI}?limit=${this.postLimit}&since=0&query=${
           this.$route.params.search
         }&offset=0&forum=${forum}`;
       axios
@@ -9613,11 +9628,11 @@ module.exports = {
       this.loading = true; //表示更新動畫
       this.button = false; //禁止按鈕
       let forum = this.$route.params.forum;
-      let api = `https://dcardimage.azurewebsites.net/search.php?limit=${this.postLimit}&since=0&query=${
+      let api = `${this.searchBaseAPI}?limit=${this.postLimit}&since=0&query=${
         this.$route.params.search
       }&offset=${this.posts.length}`;
       if (forum != undefined && forum != "all")
-        api = `https://dcardimage.azurewebsites.net/search.php?limit=${this.postLimit}&since=0&query=${
+        api = `${this.searchBaseAPI}?limit=${this.postLimit}&since=0&query=${
           this.$route.params.search
         }&offset=${this.posts.length}&forum=${forum}`;
       axios
@@ -9655,11 +9670,11 @@ module.exports = {
       this.loading = true; //表示更新動畫
       this.button = false; //禁止按鈕
       let forum = this.$route.params.forum;
-      let api = `https://www.dcard.tw/_api/forums/${forum}/posts?limit=${
+      let api = `${this.defaultBaseAPI}/forums/${forum}/posts?limit=${
         this.postLimit
       }&popular=${this.status.popular}`;
       if (forum == "all" || forum == undefined)
-        api = `https://www.dcard.tw/_api/posts?limit=${
+        api = `${this.defaultBaseAPI}/posts?limit=${
           this.postLimit
         }&popular=${this.status.popular}`;
       axios
@@ -9694,11 +9709,11 @@ module.exports = {
       let lastId =
         this.posts.length > 0 ? this.posts[this.posts.length - 1].id : 0;
       let forum = this.$route.params.forum;
-      let api = `https://www.dcard.tw/_api/forums/${forum}/posts?limit=${
+      let api = `${this.defaultBaseAPI}/forums/${forum}/posts?limit=${
         this.postLimit
       }&popular=${this.status.popular}&&before=${lastId}`;
       if (forum == "all" || forum == undefined)
-        api = `https://www.dcard.tw/_api/posts?limit=${
+        api = `${this.defaultBaseAPI}/posts?limit=${
           this.postLimit
         }&popular=${this.status.popular}&&before=${lastId}`;
       if (lastId > 0)
@@ -9744,7 +9759,7 @@ if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
 __vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('main',{staticClass:"mdl-layout__content",attrs:{"id":"main"}},[_c('div',{staticClass:"page-content",attrs:{"id":"page-content"},on:{"&scroll":function($event){return _vm.scrolling($event)}}},[_vm._l((_vm.filterPosts),function(post){return _c('d-article',{key:post.id,attrs:{"comment":_vm.status.comment,"listed":_vm.status.listed,"post":post}})}),_vm._v(" "),(_vm.end.enabled)?_c('div',{staticClass:"defaultblock"},[_vm._m(0),_vm._v(" "),_c('div',{staticClass:"endBlock"},[_vm._v(_vm._s(_vm.end.label))])]):_vm._e()],2),_vm._v(" "),_c('div',{staticClass:"mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active loadbar",style:({display:_vm.loading?'block':'none'})}),_vm._v(" "),_c('button',{staticClass:"mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--primary loadmoreButton",staticStyle:{"margin-bottom":"64px","background-color":"rgba(196,206,52,1)"},on:{"click":_vm.showHelp}},[_c('i',{staticClass:"material-icons"},[_vm._v("attach_money")])]),_vm._v(" "),_c('button',{staticClass:"mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--primary loadmoreButton",attrs:{"disabled":!_vm.button,"id":"loadmore"},on:{"click":_vm.loadMore}},[_c('i',{staticClass:"material-icons"},[_vm._v("keyboard_arrow_down")])]),_vm._v(" "),_vm._m(1)])}
-__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h4',{staticStyle:{"color":"white"}},[_c('hr')])])},function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('dialog',{staticClass:"mdl-dialog",staticStyle:{"width":"calc(100% - 100px)"},attrs:{"id":"help"}},[_c('h4',{staticClass:"mdl-dialog__title"},[_vm._v("支持作者")]),_vm._v(" "),_c('div',{staticClass:"mdl-dialog__content"},[_c('div',{staticClass:"mdl-grid"},[_c('div',{staticClass:"mdl-cell mdl-cell--6-col"},[_c('p',[_vm._v("透過點擊廣告幫助作者維護此網站")]),_vm._v(" "),_c('iframe',{attrs:{"src":"//ads.exdynsrv.com/iframe.php?idzone=3373751&size=250x250","width":"250","height":"250","scrolling":"no","marginwidth":"0","marginheight":"0","frameborder":"0"}})]),_vm._v(" "),_c('div',{staticClass:"mdl-cell mdl-cell--6-col"},[_c('p',[_vm._v("或者您可以贊助我一杯咖啡的錢")])])])]),_vm._v(" "),_c('div',{staticClass:"mdl-dialog__actions"},[_c('button',{staticClass:"mdl-button close",attrs:{"type":"button"}},[_vm._v("關閉")])])])}]
+__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h4',{staticStyle:{"color":"white"}},[_c('hr')])])},function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('dialog',{staticClass:"mdl-dialog",staticStyle:{"width":"calc(100% - 100px)"},attrs:{"id":"help"}},[_c('h4',{staticClass:"mdl-dialog__title"},[_vm._v("支持作者")]),_vm._v(" "),_c('div',{staticClass:"mdl-dialog__content"},[_c('div',{staticClass:"mdl-grid"},[_c('div',{staticClass:"mdl-cell mdl-cell--6-col"},[_c('p',[_vm._v("透過點擊廣告幫助作者維護此網站")]),_vm._v(" "),_c('iframe',{attrs:{"src":"//ads.exdynsrv.com/iframe.php?idzone=3373751&size=250x250","width":"250","height":"250","scrolling":"no","marginwidth":"0","marginheight":"0","frameborder":"0"}})]),_vm._v(" "),_c('div',{staticClass:"mdl-cell mdl-cell--6-col"},[_c('p',[_vm._v("或者您可以贊助我一杯咖啡的錢")]),_vm._v(" "),_c('a',{attrs:{"href":"https://p.ecpay.com.tw/224D9"}},[_c('img',{attrs:{"src":"https://payment.ecpay.com.tw/Content/themes/WebStyle20170517/images/ecgo.png"}})])])])]),_vm._v(" "),_c('div',{staticClass:"mdl-dialog__actions"},[_c('button',{staticClass:"mdl-button close",attrs:{"type":"button"}},[_vm._v("關閉")])])])}]
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return

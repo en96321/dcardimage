@@ -84,7 +84,7 @@ module.exports = {
   methods: {
     //讀取dcard一般留言
     getCommentsImages(post, floor) {
-      let api = `https://www.dcard.tw/_api/posts/${post.id}/comments?limit=${
+      let api = `https://cors-anywhere.herokuapp.com/https://www.dcard.tw/_api/posts/${post.id}/comments?limit=${
         this.commentLimit
       }&after=${floor}`;
       axios

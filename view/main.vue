@@ -54,6 +54,7 @@
           </div>
           <div class="mdl-cell mdl-cell--6-col">
             <p>或者您可以贊助我一杯咖啡的錢</p>
+            <a href="https://p.ecpay.com.tw/224D9"><img src="https://payment.ecpay.com.tw/Content/themes/WebStyle20170517/images/ecgo.png" /></a>
           </div>
         </div>
       </div>
@@ -80,7 +81,9 @@ module.exports = {
       end: {
         enabled: false,
         label: "沒有更多文章了"
-      }
+      },
+      searchBaseAPI:'https://cors-anywhere.herokuapp.com/https://www.dcard.tw/_api/search/posts',
+      defaultBaseAPI:'https://cors-anywhere.herokuapp.com/https://www.dcard.tw/_api'
     };
   },
   computed: {
@@ -155,11 +158,11 @@ module.exports = {
       this.loading = true; //表示更新動畫
       this.button = false; //禁止按鈕
       let forum = this.$route.params.forum;
-      let api = `https://dcardimage.azurewebsites.net/search.php?limit=${this.postLimit}&since=0&query=${
+      let api = `${this.searchBaseAPI}?limit=${this.postLimit}&since=0&query=${
         this.$route.params.search
       }&offset=0`;
       if (forum != undefined && forum != "all")
-        api = `https://dcardimage.azurewebsites.net/search.php?limit=${this.postLimit}&since=0&query=${
+        api = `${this.searchBaseAPI}?limit=${this.postLimit}&since=0&query=${
           this.$route.params.search
         }&offset=0&forum=${forum}`;
       axios
@@ -192,11 +195,11 @@ module.exports = {
       this.loading = true; //表示更新動畫
       this.button = false; //禁止按鈕
       let forum = this.$route.params.forum;
-      let api = `https://dcardimage.azurewebsites.net/search.php?limit=${this.postLimit}&since=0&query=${
+      let api = `${this.searchBaseAPI}?limit=${this.postLimit}&since=0&query=${
         this.$route.params.search
       }&offset=${this.posts.length}`;
       if (forum != undefined && forum != "all")
-        api = `https://dcardimage.azurewebsites.net/search.php?limit=${this.postLimit}&since=0&query=${
+        api = `${this.searchBaseAPI}?limit=${this.postLimit}&since=0&query=${
           this.$route.params.search
         }&offset=${this.posts.length}&forum=${forum}`;
       axios
@@ -234,11 +237,11 @@ module.exports = {
       this.loading = true; //表示更新動畫
       this.button = false; //禁止按鈕
       let forum = this.$route.params.forum;
-      let api = `https://www.dcard.tw/_api/forums/${forum}/posts?limit=${
+      let api = `${this.defaultBaseAPI}/forums/${forum}/posts?limit=${
         this.postLimit
       }&popular=${this.status.popular}`;
       if (forum == "all" || forum == undefined)
-        api = `https://www.dcard.tw/_api/posts?limit=${
+        api = `${this.defaultBaseAPI}/posts?limit=${
           this.postLimit
         }&popular=${this.status.popular}`;
       axios
@@ -273,11 +276,11 @@ module.exports = {
       let lastId =
         this.posts.length > 0 ? this.posts[this.posts.length - 1].id : 0;
       let forum = this.$route.params.forum;
-      let api = `https://www.dcard.tw/_api/forums/${forum}/posts?limit=${
+      let api = `${this.defaultBaseAPI}/forums/${forum}/posts?limit=${
         this.postLimit
       }&popular=${this.status.popular}&&before=${lastId}`;
       if (forum == "all" || forum == undefined)
-        api = `https://www.dcard.tw/_api/posts?limit=${
+        api = `${this.defaultBaseAPI}/posts?limit=${
           this.postLimit
         }&popular=${this.status.popular}&&before=${lastId}`;
       if (lastId > 0)
