@@ -9107,6 +9107,7 @@ module.exports = {
                   el.floor = c.floor;
                   el.thumbnail = el.url
                     .replace(`.jpg`, `m.jpg`)
+                    .replace(`.png`, `m.jpg`)
                     .replace(`https`, `http`)
                     .replace(`http`, `https`);
                   this.post.media.push(el);
@@ -9619,7 +9620,7 @@ module.exports = {
           res.data.map(p => {
             p.media.map(image => {
               image.thumbnail = (image.url.indexOf(`imgur`) > -1
-                ? image.url.replace(`.jpg`, `m.jpg`)
+                ? image.url.replace(`.jpg`, `m.jpg`).replace(`.png`, `m.jpg`)
                 : image.url
               )
                 .replace(`https`, `http`)
@@ -9660,7 +9661,7 @@ module.exports = {
             res.data.map(p => {
               p.media.map(image => {
                 image.thumbnail = (image.url.indexOf(`imgur`) > -1
-                  ? image.url.replace(`.jpg`, `m.jpg`)
+                  ? image.url.replace(`.jpg`, `m.jpg`).replace(`.png`, `m.jpg`)
                   : image.url
                 )
                   .replace(`https`, `http`)
@@ -9698,7 +9699,7 @@ module.exports = {
           res.data.map(p => {
             p.media.map(image => {
               image.thumbnail = (image.url.indexOf(`imgur`) > -1
-                ? image.url.replace(`.jpg`, `m.jpg`)
+                ? image.url.replace(`.jpg`, `m.jpg`).replace(`.png`, `m.jpg`)
                 : image.url
               )
                 .replace(`https`, `http`)
@@ -9738,7 +9739,7 @@ module.exports = {
             res.data.map(p => {
               p.media.map(image => {
                 image.thumbnail = (image.url.indexOf(`imgur`) > -1
-                  ? image.url.replace(`.jpg`, `m.jpg`)
+                  ? image.url.replace(`.jpg`, `m.jpg`).replace(`.png`, `m.jpg`)
                   : image.url
                 )
                   .replace(`https`, `http`)

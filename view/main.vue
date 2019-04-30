@@ -171,7 +171,7 @@ module.exports = {
           res.data.map(p => {
             p.media.map(image => {
               image.thumbnail = (image.url.indexOf(`imgur`) > -1
-                ? image.url.replace(`.jpg`, `m.jpg`)
+                ? image.url.replace(`.jpg`, `m.jpg`).replace(`.png`, `m.jpg`)
                 : image.url
               )
                 .replace(`https`, `http`)
@@ -212,7 +212,7 @@ module.exports = {
             res.data.map(p => {
               p.media.map(image => {
                 image.thumbnail = (image.url.indexOf(`imgur`) > -1
-                  ? image.url.replace(`.jpg`, `m.jpg`)
+                  ? image.url.replace(`.jpg`, `m.jpg`).replace(`.png`, `m.jpg`)
                   : image.url
                 )
                   .replace(`https`, `http`)
@@ -250,7 +250,7 @@ module.exports = {
           res.data.map(p => {
             p.media.map(image => {
               image.thumbnail = (image.url.indexOf(`imgur`) > -1
-                ? image.url.replace(`.jpg`, `m.jpg`)
+                ? image.url.replace(`.jpg`, `m.jpg`).replace(`.png`, `m.jpg`)
                 : image.url
               )
                 .replace(`https`, `http`)
@@ -290,7 +290,7 @@ module.exports = {
             res.data.map(p => {
               p.media.map(image => {
                 image.thumbnail = (image.url.indexOf(`imgur`) > -1
-                  ? image.url.replace(`.jpg`, `m.jpg`)
+                  ? image.url.replace(`.jpg`, `m.jpg`).replace(`.png`, `m.jpg`)
                   : image.url
                 )
                   .replace(`https`, `http`)

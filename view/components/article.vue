@@ -106,6 +106,7 @@ module.exports = {
                   el.floor = c.floor;
                   el.thumbnail = el.url
                     .replace(`.jpg`, `m.jpg`)
+                    .replace(`.png`, `m.jpg`)
                     .replace(`https`, `http`)
                     .replace(`http`, `https`);
                   this.post.media.push(el);
