@@ -9341,12 +9341,17 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
 //
 //
 //
+//
+//
+//
+//
 
 module.exports = {
   name: "d-siadebar",
   data() {
     return {
       search: "",
+      searchForums: "",
       forum: {
         status: "loading",
         lists: [
@@ -9388,6 +9393,16 @@ module.exports = {
         return list.alias == this.$route.params.forum;
       });
       return f == undefined ? "全部" : f.name;
+    },
+    forums() {
+      return this.searchForums == ""
+        ? this.forum.lists
+        : this.forum.lists.filter(val => {
+            return (
+              val.alias.indexOf(this.searchForums) > -1 ||
+              val.name.indexOf(this.searchForums) > -1
+            );
+          });
     }
   },
   created() {
@@ -9417,8 +9432,8 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('form',{on:{"submit":function($event){$event.preventDefault();return _vm.$router.push('/'+_vm.$route.params.forum+'/'+_vm.search)}}},[_c('div',{staticClass:"mdl-chip mdl-chip--contact mdl-chip--deletable",attrs:{"id":"searchBox"}},[_vm._m(0),_vm._v(" "),_c('span',{staticClass:"mdl-chip__text"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.search),expression:"search"}],staticClass:"mdl-textfield__input",attrs:{"type":"text","id":"search"},domProps:{"value":(_vm.search)},on:{"input":function($event){if($event.target.composing){ return; }_vm.search=$event.target.value}}})])])]),_vm._v(" "),_c('div',{staticStyle:{"overflow-x":"scroll","display":"inline-flex","margin-bottom":"-14px","padding-bottom":"5px","width":"100%"}},_vm._l((_vm.defaultForums),function(item,index){return _c('router-link',{key:index,staticClass:"mdl-button mdl-js-button mdl-button mdl-js-ripple-effect speedDial mdl-color-text--primary",attrs:{"to":'/'+item.alias}},[_vm._v("#"+_vm._s(item.label))])}),1),_vm._v(" "),_c('hr'),_vm._v(" "),_c('nav',{staticClass:"mdl-navigation",attrs:{"id":"nav"}},[_c('div',{staticClass:"mdl-progress mdl-js-progress mdl-progress__indeterminate",staticStyle:{"margin-top":"-16px"},style:({display:_vm.forum.status=='loading'?'block':'none'})}),_vm._v(" "),(_vm.forum.status=='loading')?void 0:(_vm.forum.status=='error')?[_c('button',{staticClass:"mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-button--colored",staticStyle:{"margin":"0px auto"},on:{"click":_vm.getForums}},[_c('i',{staticClass:"material-icons"},[_vm._v("refresh")])])]:_vm._l((_vm.forum.lists),function(forum,index){return _c('router-link',{key:index,staticClass:"mdl-navigation__link",attrs:{"to":'/'+forum.alias}},[_vm._v("\n        "+_vm._s(forum.name)+"\n        "),(forum.isSchool)?_c('i',{staticClass:"material-icons miniIcon"},[_vm._v("school")]):_vm._e(),_vm._v(" "),(forum.invisible)?_c('i',{staticClass:"material-icons miniIcon"},[_vm._v("visibility_off")]):_vm._e()])})],2)])}
-__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{staticClass:"mdl-chip__contact mdl-color--primary mdl-color-text--white"},[_c('i',{staticClass:"material-icons"},[_vm._v("search")])])}]
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('form',{on:{"submit":function($event){$event.preventDefault();return _vm.$router.push('/'+_vm.$route.params.forum+'/'+_vm.search)}}},[_c('div',{staticClass:"mdl-chip mdl-chip--contact mdl-chip--deletable",attrs:{"id":"searchBox"}},[_vm._m(0),_vm._v(" "),_c('span',{staticClass:"mdl-chip__text",staticStyle:{"width":"150px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.search),expression:"search"}],staticClass:"mdl-textfield__input",attrs:{"type":"text","id":"search"},domProps:{"value":(_vm.search)},on:{"input":function($event){if($event.target.composing){ return; }_vm.search=$event.target.value}}})])])]),_vm._v(" "),_c('div',{staticStyle:{"overflow-x":"scroll","display":"inline-flex","margin-bottom":"-14px","padding-bottom":"5px","width":"100%"}},_vm._l((_vm.defaultForums),function(item,index){return _c('router-link',{key:index,staticClass:"mdl-button mdl-js-button mdl-button mdl-js-ripple-effect speedDial mdl-color-text--primary",attrs:{"to":'/'+item.alias}},[_vm._v("#"+_vm._s(item.label))])}),1),_vm._v(" "),_c('hr'),_vm._v(" "),_c('nav',{staticClass:"mdl-navigation",attrs:{"id":"nav"}},[_c('div',{staticClass:"mdl-progress mdl-js-progress mdl-progress__indeterminate",staticStyle:{"margin-top":"-16px"},style:({display:_vm.forum.status=='loading'?'block':'none'})}),_vm._v(" "),(_vm.forum.status=='loading')?void 0:(_vm.forum.status=='error')?[_c('button',{staticClass:"mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-button--colored",staticStyle:{"margin":"0px auto"},on:{"click":_vm.getForums}},[_c('i',{staticClass:"material-icons"},[_vm._v("refresh")])])]:[_c('div',{staticClass:"mdl-textfield mdl-js-textfield",staticStyle:{"width":"calc(100% - 32px)","margin":"-16px 16px -8px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.searchForums),expression:"searchForums"}],staticClass:"mdl-textfield__input",attrs:{"type":"text","id":"search","autocomplete":"off"},domProps:{"value":(_vm.searchForums)},on:{"input":function($event){if($event.target.composing){ return; }_vm.searchForums=$event.target.value}}}),_vm._v(" "),_c('label',{staticClass:"mdl-textfield__label",attrs:{"for":"searcg"}},[_vm._v("搜尋板塊")])]),_vm._v(" "),_vm._l((_vm.forums),function(forum,index){return _c('router-link',{key:index,staticClass:"mdl-navigation__link",attrs:{"to":'/'+forum.alias}},[_vm._v("\n        "+_vm._s(forum.name)+"\n        "),(forum.isSchool)?_c('i',{staticClass:"material-icons miniIcon"},[_vm._v("school")]):_vm._e(),_vm._v(" "),(forum.invisible)?_c('i',{staticClass:"material-icons miniIcon"},[_vm._v("visibility_off")]):_vm._e()])})]],2)])}
+__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('button',{staticClass:"mdl-button mdl-js-button mdl-button--icon mdl-chip__contact mdl-color--primary mdl-color-text--white",attrs:{"type":"submit"}},[_c('i',{staticClass:"material-icons"},[_vm._v("search")])])}]
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return

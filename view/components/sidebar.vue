@@ -2,11 +2,11 @@
   <div>
     <form @submit.prevent="$router.push('/'+$route.params.forum+'/'+search)">
       <div class="mdl-chip mdl-chip--contact mdl-chip--deletable" id="searchBox">
-        <span class="mdl-chip__contact mdl-color--primary mdl-color-text--white">
+        <button type="submit" class="mdl-button mdl-js-button mdl-button--icon mdl-chip__contact mdl-color--primary mdl-color-text--white">
           <i class="material-icons">search</i>
-        </span>
+        </button>
 
-        <span class="mdl-chip__text">
+        <span class="mdl-chip__text" style="width:150px">
           <input class="mdl-textfield__input" type="text" id="search" v-model="search">
         </span>
       </div>
@@ -39,8 +39,12 @@
         </button>
       </template>
       <template v-else>
+        <div class="mdl-textfield mdl-js-textfield" style="width:calc(100% - 32px);margin:-16px 16px -8px">
+        <input class="mdl-textfield__input" type="text" id="search" v-model="searchForums" autocomplete="off">
+        <label class="mdl-textfield__label" for="searcg">搜尋板塊</label>
+      </div>
         <router-link
-          v-for="(forum, index) in forum.lists"
+          v-for="(forum, index) in forums"
           :key="index"
           class="mdl-navigation__link"
           :to="'/'+forum.alias"
@@ -59,6 +63,7 @@ module.exports = {
   data() {
     return {
       search: "",
+      searchForums: "",
       forum: {
         status: "loading",
         lists: [
@@ -100,6 +105,16 @@ module.exports = {
         return list.alias == this.$route.params.forum;
       });
       return f == undefined ? "全部" : f.name;
+    },
+    forums() {
+      return this.searchForums == ""
+        ? this.forum.lists
+        : this.forum.lists.filter(val => {
+            return (
+              val.alias.indexOf(this.searchForums) > -1 ||
+              val.name.indexOf(this.searchForums) > -1
+            );
+          });
     }
   },
   created() {
