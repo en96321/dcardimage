@@ -93,9 +93,16 @@ module.exports = {
     }
   },
   created() {
-    this.selectForum();
+    if (this.$route.params.search != undefined) {
+        this.searchPostsImages();
+      } else this.selectForum();
   },
   watch: {
+    "$route.params.search": function() {
+      if (this.$route.params.search != undefined) {
+        this.searchPostsImages();
+      } else this.selectForum();
+    },
     //監控板塊變更
     "$route.params.forum": function() {
       this.selectForum();
@@ -134,12 +141,93 @@ module.exports = {
     },
     //讀取更多
     loadMore() {
-      this.getOlderPostsImages();
+      if (this.$route.params.search == undefined) this.getOlderPostsImages();
+      else this.searchOlderPostsImages();
     },
     //清空文章
     clear() {
       this.posts = [];
       this.end.enabled = false;
+    },
+    //搜尋文章
+    searchPostsImages() {
+      this.clear(); //清空文章
+      this.loading = true; //表示更新動畫
+      this.button = false; //禁止按鈕
+      let forum = this.$route.params.forum;
+      let api = `https://dcardimage.azurewebsites.net/search.php?limit=${this.postLimit}&since=0&query=${
+        this.$route.params.search
+      }&offset=0`;
+      if (forum != undefined && forum != "all")
+        api = `https://dcardimage.azurewebsites.net/search.php?limit=${this.postLimit}&since=0&query=${
+          this.$route.params.search
+        }&offset=0&forum=${forum}`;
+      axios
+        .get(api)
+        .then(res => {
+          res.data.map(p => {
+            p.media.map(image => {
+              image.thumbnail = (image.url.indexOf(`imgur`) > -1
+                ? image.url.replace(`.jpg`, `m.jpg`)
+                : image.url
+              )
+                .replace(`https`, `http`)
+                .replace(`http`, `https`);
+
+              if (image.url.indexOf("vivid.dcard.tw") > -1) {
+                image.isVideo = true;
+              }
+            });
+            this.posts.push(p);
+          });
+          this.loading = false; //結束更新動畫
+          this.button = true; //停用按鈕
+        })
+        .catch(err => {
+          console.log("搜尋文章失敗", err);
+        });
+    },
+    //搜尋往前所有文章
+    searchOlderPostsImages() {
+      this.loading = true; //表示更新動畫
+      this.button = false; //禁止按鈕
+      let forum = this.$route.params.forum;
+      let api = `https://dcardimage.azurewebsites.net/search.php?limit=${this.postLimit}&since=0&query=${
+        this.$route.params.search
+      }&offset=${this.posts.length}`;
+      if (forum != undefined && forum != "all")
+        api = `https://dcardimage.azurewebsites.net/search.php?limit=${this.postLimit}&since=0&query=${
+          this.$route.params.search
+        }&offset=${this.posts.length}&forum=${forum}`;
+      axios
+        .get(api)
+        .then(res => {
+          if (res.data.length == 0) {
+            this.loading = false; //結束更新動畫
+            this.button = false; //啟用按鈕
+          } else {
+            res.data.map(p => {
+              p.media.map(image => {
+                image.thumbnail = (image.url.indexOf(`imgur`) > -1
+                  ? image.url.replace(`.jpg`, `m.jpg`)
+                  : image.url
+                )
+                  .replace(`https`, `http`)
+                  .replace(`http`, `https`);
+
+                if (image.url.indexOf("vivid.dcard.tw") > -1) {
+                  image.isVideo = true;
+                }
+              });
+              this.posts.push(p);
+            });
+            this.loading = false; //結束更新動畫
+            this.button = true; //啟用按鈕
+          }
+        })
+        .catch(err => {
+          console.log(`取得${lastId}前文章失敗`, err);
+        });
     },
     //取得文章
     getPostsImages() {

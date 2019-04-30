@@ -63,6 +63,13 @@ module.exports = {
       return this.status.listed ? "view_stream" : "view_module";
     }
   },
+  watch: {
+    "$route.params.search": function() {
+      if (this.$route.params.search != undefined) {
+        this.title = '搜尋:'+this.$route.params.search;
+      }
+    },
+  },
 };
 </script>
 

@@ -267,7 +267,9 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
 const master = require('../view/master.vue');
 
 const routes = [
+  {path:'/',redirect: '/all'},
   { path: '/:forum' },
+  { path: '/:forum/:search' }
 ];
 const router = new VueRouter({
   routes
@@ -9245,6 +9247,13 @@ module.exports = {
       return this.status.listed ? "view_stream" : "view_module";
     }
   },
+  watch: {
+    "$route.params.search": function() {
+      if (this.$route.params.search != undefined) {
+        this.title = '搜尋:'+this.$route.params.search;
+      }
+    },
+  },
 };
 
 })()
@@ -9265,6 +9274,11 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
 })()}
 },{"vue":6,"vue-hot-reload-api":4}],10:[function(require,module,exports){
 ;(function(){
+//
+//
+//
+//
+//
 //
 //
 //
@@ -9353,7 +9367,7 @@ module.exports = {
   },
   watch: {
     "$route.params.forum": function() {
-      this.$emit('changeTitle',this.title);
+      this.$emit("changeTitle", this.title);
     }
   },
   computed: {
@@ -9362,16 +9376,6 @@ module.exports = {
         return list.alias == this.$route.params.forum;
       });
       return f == undefined ? "全部" : f.name;
-    },
-    forums() {
-      return this.search == ""
-        ? this.forum.lists
-        : this.forum.lists.filter(val => {
-            return (
-              val.alias.indexOf(this.search) > -1 ||
-              val.name.indexOf(this.search) > -1
-            );
-          });
     }
   },
   created() {
@@ -9388,7 +9392,7 @@ module.exports = {
         .then(res => {
           this.forum.status = "success";
           this.forum.lists = this.forum.lists.concat(res.data);
-           this.$emit('changeTitle',this.title);
+          this.$emit("changeTitle", this.title);
         })
         .catch(error => {
           this.forum.status = "error";
@@ -9401,7 +9405,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{staticClass:"mdl-chip mdl-chip--contact mdl-chip--deletable",attrs:{"id":"searchBox"}},[_vm._m(0),_vm._v(" "),_c('span',{staticClass:"mdl-chip__text"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.search),expression:"search"}],staticClass:"mdl-textfield__input",attrs:{"type":"text","id":"search"},domProps:{"value":(_vm.search)},on:{"input":function($event){if($event.target.composing){ return; }_vm.search=$event.target.value}}})])]),_vm._v(" "),_c('div',{staticStyle:{"overflow-x":"scroll","display":"inline-flex","margin-bottom":"-14px","padding-bottom":"5px","width":"100%"}},_vm._l((_vm.defaultForums),function(item,index){return _c('router-link',{key:index,staticClass:"mdl-button mdl-js-button mdl-button mdl-js-ripple-effect speedDial mdl-color-text--primary",attrs:{"to":'/'+item.alias}},[_vm._v("#"+_vm._s(item.label))])}),1),_vm._v(" "),_c('hr'),_vm._v(" "),_c('nav',{staticClass:"mdl-navigation",attrs:{"id":"nav"}},[_c('div',{staticClass:"mdl-progress mdl-js-progress mdl-progress__indeterminate",staticStyle:{"margin-top":"-16px"},style:({display:_vm.forum.status=='loading'?'block':'none'})}),_vm._v(" "),(_vm.forum.status=='loading')?void 0:(_vm.forum.status=='error')?[_c('button',{staticClass:"mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-button--colored",staticStyle:{"margin":"0px auto"},on:{"click":_vm.getForums}},[_c('i',{staticClass:"material-icons"},[_vm._v("refresh")])])]:_vm._l((_vm.forums),function(forum,index){return _c('router-link',{key:index,staticClass:"mdl-navigation__link",attrs:{"to":'/'+forum.alias}},[_vm._v("\n        "+_vm._s(forum.name)+"\n        "),(forum.isSchool)?_c('i',{staticClass:"material-icons miniIcon"},[_vm._v("school")]):_vm._e(),_vm._v(" "),(forum.invisible)?_c('i',{staticClass:"material-icons miniIcon"},[_vm._v("visibility_off")]):_vm._e()])})],2)])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('form',{on:{"submit":function($event){$event.preventDefault();return _vm.$router.push('/'+_vm.$route.params.forum+'/'+_vm.search)}}},[_c('div',{staticClass:"mdl-chip mdl-chip--contact mdl-chip--deletable",attrs:{"id":"searchBox"}},[_vm._m(0),_vm._v(" "),_c('span',{staticClass:"mdl-chip__text"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.search),expression:"search"}],staticClass:"mdl-textfield__input",attrs:{"type":"text","id":"search"},domProps:{"value":(_vm.search)},on:{"input":function($event){if($event.target.composing){ return; }_vm.search=$event.target.value}}})])])]),_vm._v(" "),_c('div',{staticStyle:{"overflow-x":"scroll","display":"inline-flex","margin-bottom":"-14px","padding-bottom":"5px","width":"100%"}},_vm._l((_vm.defaultForums),function(item,index){return _c('router-link',{key:index,staticClass:"mdl-button mdl-js-button mdl-button mdl-js-ripple-effect speedDial mdl-color-text--primary",attrs:{"to":'/'+item.alias}},[_vm._v("#"+_vm._s(item.label))])}),1),_vm._v(" "),_c('hr'),_vm._v(" "),_c('nav',{staticClass:"mdl-navigation",attrs:{"id":"nav"}},[_c('div',{staticClass:"mdl-progress mdl-js-progress mdl-progress__indeterminate",staticStyle:{"margin-top":"-16px"},style:({display:_vm.forum.status=='loading'?'block':'none'})}),_vm._v(" "),(_vm.forum.status=='loading')?void 0:(_vm.forum.status=='error')?[_c('button',{staticClass:"mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-button--colored",staticStyle:{"margin":"0px auto"},on:{"click":_vm.getForums}},[_c('i',{staticClass:"material-icons"},[_vm._v("refresh")])])]:_vm._l((_vm.forum.lists),function(forum,index){return _c('router-link',{key:index,staticClass:"mdl-navigation__link",attrs:{"to":'/'+forum.alias}},[_vm._v("\n        "+_vm._s(forum.name)+"\n        "),(forum.isSchool)?_c('i',{staticClass:"material-icons miniIcon"},[_vm._v("school")]):_vm._e(),_vm._v(" "),(forum.invisible)?_c('i',{staticClass:"material-icons miniIcon"},[_vm._v("visibility_off")]):_vm._e()])})],2)])}
 __vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{staticClass:"mdl-chip__contact mdl-color--primary mdl-color-text--white"},[_c('i',{staticClass:"material-icons"},[_vm._v("search")])])}]
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -9510,9 +9514,16 @@ module.exports = {
     }
   },
   created() {
-    this.selectForum();
+    if (this.$route.params.search != undefined) {
+        this.searchPostsImages();
+      } else this.selectForum();
   },
   watch: {
+    "$route.params.search": function() {
+      if (this.$route.params.search != undefined) {
+        this.searchPostsImages();
+      } else this.selectForum();
+    },
     //監控板塊變更
     "$route.params.forum": function() {
       this.selectForum();
@@ -9551,12 +9562,93 @@ module.exports = {
     },
     //讀取更多
     loadMore() {
-      this.getOlderPostsImages();
+      if (this.$route.params.search == undefined) this.getOlderPostsImages();
+      else this.searchOlderPostsImages();
     },
     //清空文章
     clear() {
       this.posts = [];
       this.end.enabled = false;
+    },
+    //搜尋文章
+    searchPostsImages() {
+      this.clear(); //清空文章
+      this.loading = true; //表示更新動畫
+      this.button = false; //禁止按鈕
+      let forum = this.$route.params.forum;
+      let api = `https://dcardimage.azurewebsites.net/search.php?limit=${this.postLimit}&since=0&query=${
+        this.$route.params.search
+      }&offset=0`;
+      if (forum != undefined && forum != "all")
+        api = `https://dcardimage.azurewebsites.net/search.php?limit=${this.postLimit}&since=0&query=${
+          this.$route.params.search
+        }&offset=0&forum=${forum}`;
+      axios
+        .get(api)
+        .then(res => {
+          res.data.map(p => {
+            p.media.map(image => {
+              image.thumbnail = (image.url.indexOf(`imgur`) > -1
+                ? image.url.replace(`.jpg`, `m.jpg`)
+                : image.url
+              )
+                .replace(`https`, `http`)
+                .replace(`http`, `https`);
+
+              if (image.url.indexOf("vivid.dcard.tw") > -1) {
+                image.isVideo = true;
+              }
+            });
+            this.posts.push(p);
+          });
+          this.loading = false; //結束更新動畫
+          this.button = true; //停用按鈕
+        })
+        .catch(err => {
+          console.log("搜尋文章失敗", err);
+        });
+    },
+    //搜尋往前所有文章
+    searchOlderPostsImages() {
+      this.loading = true; //表示更新動畫
+      this.button = false; //禁止按鈕
+      let forum = this.$route.params.forum;
+      let api = `https://dcardimage.azurewebsites.net/search.php?limit=${this.postLimit}&since=0&query=${
+        this.$route.params.search
+      }&offset=${this.posts.length}`;
+      if (forum != undefined && forum != "all")
+        api = `https://dcardimage.azurewebsites.net/search.php?limit=${this.postLimit}&since=0&query=${
+          this.$route.params.search
+        }&offset=${this.posts.length}&forum=${forum}`;
+      axios
+        .get(api)
+        .then(res => {
+          if (res.data.length == 0) {
+            this.loading = false; //結束更新動畫
+            this.button = false; //啟用按鈕
+          } else {
+            res.data.map(p => {
+              p.media.map(image => {
+                image.thumbnail = (image.url.indexOf(`imgur`) > -1
+                  ? image.url.replace(`.jpg`, `m.jpg`)
+                  : image.url
+                )
+                  .replace(`https`, `http`)
+                  .replace(`http`, `https`);
+
+                if (image.url.indexOf("vivid.dcard.tw") > -1) {
+                  image.isVideo = true;
+                }
+              });
+              this.posts.push(p);
+            });
+            this.loading = false; //結束更新動畫
+            this.button = true; //啟用按鈕
+          }
+        })
+        .catch(err => {
+          console.log(`取得${lastId}前文章失敗`, err);
+        });
     },
     //取得文章
     getPostsImages() {
