@@ -36,7 +36,7 @@
     >
       <i class="material-icons">keyboard_arrow_down</i>
     </button>
-    <dialog class="mdl-dialog" id="help" style="width: calc(100% - 100px);">
+    <dialog class="mdl-dialog" id="help" style="width: calc(100% - 100px);max-width:600px">
       <h4 class="mdl-dialog__title">支持作者</h4>
       <div class="mdl-dialog__content">
         <div class="mdl-grid">
