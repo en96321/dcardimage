@@ -82,8 +82,8 @@ module.exports = {
         enabled: false,
         label: "沒有更多文章了"
       },
-      searchBaseAPI:'https://cors-anywhere.herokuapp.com/https://www.dcard.tw/_api/search/posts',
-      defaultBaseAPI:'https://cors-anywhere.herokuapp.com/https://www.dcard.tw/_api'
+      searchBaseAPI:'https://dcardimage.azurewebsites.net/search.php',
+      defaultBaseAPI:'https://www.dcard.tw/_api'
     };
   },
   computed: {

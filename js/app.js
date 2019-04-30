@@ -9085,7 +9085,7 @@ module.exports = {
   methods: {
     //讀取dcard一般留言
     getCommentsImages(post, floor) {
-      let api = `https://cors-anywhere.herokuapp.com/https://www.dcard.tw/_api/posts/${post.id}/comments?limit=${
+      let api = `https://www.dcard.tw/_api/posts/${post.id}/comments?limit=${
         this.commentLimit
       }&after=${floor}`;
       axios
@@ -9515,8 +9515,8 @@ module.exports = {
         enabled: false,
         label: "沒有更多文章了"
       },
-      searchBaseAPI:'https://cors-anywhere.herokuapp.com/https://www.dcard.tw/_api/search/posts',
-      defaultBaseAPI:'https://cors-anywhere.herokuapp.com/https://www.dcard.tw/_api'
+      searchBaseAPI:'https://dcardimage.azurewebsites.net/search.php',
+      defaultBaseAPI:'https://www.dcard.tw/_api'
     };
   },
   computed: {
