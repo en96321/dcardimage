@@ -84,7 +84,7 @@ module.exports = {
   methods: {
     //讀取dcard一般留言
     getCommentsImages(post, floor) {
-      let api = `https://www.dcard.tw/_api/posts/${post.id}/comments?limit=${
+      let api = `https://dcardimage.azurewebsites.net/comments.php?id=${post.id}&limit=${
         this.commentLimit
       }&after=${floor}`;
       axios
