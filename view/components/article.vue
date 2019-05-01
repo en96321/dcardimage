@@ -6,7 +6,7 @@
         <span class="mdl-chip" style="vertical-align: middle;" v-if="post.pptcc">
           <span class="mdl-chip__text">ptt.cc</span>
         </span>
-        <span class="mdl-chip" style="vertical-align: middle;" v-if="post.viemo">
+        <span class="mdl-chip" style="vertical-align: middle;" v-if="post.vimeo">
           <span class="mdl-chip__text">vimeo</span>
         </span>
         <span class="mdl-chip" style="vertical-align: middle;" v-if="downloading.status">
@@ -84,7 +84,7 @@ module.exports = {
   methods: {
     //讀取dcard一般留言
     getCommentsImages(post, floor) {
-      let api = `https://dcardimage.000webhostapp.com/comments.php?id=${post.id}&limit=${
+      let api = `api/comments.php?id=${post.id}&limit=${
         this.commentLimit
       }&after=${floor}`;
       axios

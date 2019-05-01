@@ -37,14 +37,25 @@
       <i class="material-icons">keyboard_arrow_down</i>
     </button>
     <dialog class="mdl-dialog" id="help" style="width: calc(100% - 100px);max-width:600px">
-      <h4 class="mdl-dialog__title">支持作者</h4>
+      <h4 class="mdl-dialog__title">
+        支持作者
+        <a href="https://p.ecpay.com.tw/FDD74">
+          <img src="https://payment.ecpay.com.tw/Content/themes/WebStyle20170517/images/ecgo.png">
+        </a>
+      </h4>
       <div class="mdl-dialog__content">
         <div class="mdl-grid">
+          <p>贊助商</p>
+          <a href="https://taiwancoldnews.com" target="_blank">
+            <img style="max-width:100%" src="assets/images/tcnews.png">
+          </a>
+        </div>
+        <p>透過點擊廣告幫助作者維護此網站</p>
+        <div class="mdl-grid">
           <div class="mdl-cell mdl-cell--6-col">
-            <p>透過點擊廣告幫助作者維護此網站</p>
             <iframe
-              src="//ads.exdynsrv.com/iframe.php?idzone=3373751&size=250x250"
-              width="250"
+              src="//ads.exosrv.com/iframe.php?idzone=3373751&size=300x250"
+              width="300"
               height="250"
               scrolling="no"
               marginwidth="0"
@@ -53,8 +64,15 @@
             ></iframe>
           </div>
           <div class="mdl-cell mdl-cell--6-col">
-            <p>或者您可以贊助我一杯咖啡的錢</p>
-            <a href="https://p.ecpay.com.tw/43E07"><img src="https://payment.ecpay.com.tw/Content/themes/WebStyle20170517/images/ecgo.png" /></a>
+            <iframe
+              src="//ads.exosrv.com/iframe.php?idzone=3374821&size=300x250"
+              width="300"
+              height="250"
+              scrolling="no"
+              marginwidth="0"
+              marginheight="0"
+              frameborder="0"
+            ></iframe>
           </div>
         </div>
       </div>
@@ -82,8 +100,8 @@ module.exports = {
         enabled: false,
         label: "沒有更多文章了"
       },
-      searchBaseAPI:'https://dcardimage.000webhostapp.com/search.php',
-      defaultBaseAPI:'https://www.dcard.tw/_api'
+      searchBaseAPI: "api/search.php",
+      defaultBaseAPI: "https://www.dcard.tw/_api"
     };
   },
   computed: {
@@ -96,15 +114,11 @@ module.exports = {
     }
   },
   created() {
-    if (this.$route.params.search != undefined) {
-        this.searchPostsImages();
-      } else this.selectForum();
+    this.search();
   },
   watch: {
     "$route.params.search": function() {
-      if (this.$route.params.search != undefined) {
-        this.searchPostsImages();
-      } else this.selectForum();
+      this.search();
     },
     //監控板塊變更
     "$route.params.forum": function() {
@@ -151,6 +165,11 @@ module.exports = {
     clear() {
       this.posts = [];
       this.end.enabled = false;
+    },
+    search() {
+      if (this.$route.params.search != undefined) {
+        this.searchPostsImages();
+      } else this.selectForum();
     },
     //搜尋文章
     searchPostsImages() {
@@ -241,9 +260,9 @@ module.exports = {
         this.postLimit
       }&popular=${this.status.popular}`;
       if (forum == "all" || forum == undefined)
-        api = `${this.defaultBaseAPI}/posts?limit=${
-          this.postLimit
-        }&popular=${this.status.popular}`;
+        api = `${this.defaultBaseAPI}/posts?limit=${this.postLimit}&popular=${
+          this.status.popular
+        }`;
       axios
         .get(api)
         .then(res => {
@@ -280,9 +299,9 @@ module.exports = {
         this.postLimit
       }&popular=${this.status.popular}&&before=${lastId}`;
       if (forum == "all" || forum == undefined)
-        api = `${this.defaultBaseAPI}/posts?limit=${
-          this.postLimit
-        }&popular=${this.status.popular}&&before=${lastId}`;
+        api = `${this.defaultBaseAPI}/posts?limit=${this.postLimit}&popular=${
+          this.status.popular
+        }&&before=${lastId}`;
       if (lastId > 0)
         axios
           .get(api)

@@ -9085,7 +9085,7 @@ module.exports = {
   methods: {
     //讀取dcard一般留言
     getCommentsImages(post, floor) {
-      let api = `https://dcardimage.000webhostapp.com/comments.php?id=${post.id}&limit=${
+      let api = `api/comments.php?id=${post.id}&limit=${
         this.commentLimit
       }&after=${floor}`;
       axios
@@ -9169,7 +9169,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.post.media.length>0)?_c('div',{staticClass:"defaultblock"},[(_vm.listed)?_c('div',[_c('h4',{staticClass:"text-white"},[_vm._v("\n      "+_vm._s(_vm.post.title)+"\n      "),(_vm.post.pptcc)?_c('span',{staticClass:"mdl-chip",staticStyle:{"vertical-align":"middle"}},[_c('span',{staticClass:"mdl-chip__text"},[_vm._v("ptt.cc")])]):_vm._e(),_vm._v(" "),(_vm.post.viemo)?_c('span',{staticClass:"mdl-chip",staticStyle:{"vertical-align":"middle"}},[_c('span',{staticClass:"mdl-chip__text"},[_vm._v("vimeo")])]):_vm._e(),_vm._v(" "),(_vm.downloading.status)?_c('span',{staticClass:"mdl-chip",staticStyle:{"vertical-align":"middle"}},[_c('span',{staticClass:"mdl-chip__text"},[_vm._v("壓縮中("+_vm._s(_vm.downloading.success)+"/"+_vm._s(_vm.downloading.max)+")")])]):_c('button',{staticClass:"mdl-chip",staticStyle:{"vertical-align":"middle"},on:{"click":_vm.download}},[_c('span',{staticClass:"mdl-chip__text"},[_vm._v("下載本文圖片")])])])]):_vm._e(),_vm._v(" "),_c('div',{style:(_vm.style)},[_vm._l((_vm.post.media),function(image,index){return [(image.isVideo)?_c('div',{key:_vm.post.id+'-'+index,staticClass:"imgBlock mdl-card"},[_c('div',{staticClass:"mdl-card__title mdl-card--expand",staticStyle:{"padding":"0px"}},[_c('video',{staticClass:"videoBlock",attrs:{"controls":""}},[_c('source',{attrs:{"src":image.url.replace('thumbnail.jpg','source'),"type":"video/mp4"}})])]),_vm._v(" "),_c('div',{staticClass:"mdl-card__actions text-white"},[(!_vm.listed)?_c('span',[_vm._v(_vm._s(_vm.post.title))]):_vm._e(),_vm._v(" "),(image.floor!=undefined)?_c('span',[_vm._v("#B"+_vm._s(image.floor))]):_vm._e(),_vm._v(" "),(image.isVideo)?_c('span',[_vm._v("#影片")]):_vm._e()])]):_c('a',{key:_vm.post.id+'-'+index,attrs:{"href":'https://www.dcard.tw/f/'+_vm.post.forumAlias+'/p/'+_vm.post.id,"target":"_blank","title":_vm.post.title}},[_c('div',{staticClass:"imgBlock mdl-card",style:({'background': 'url("'+image.thumbnail+'") center center / cover'})},[_c('div',{staticClass:"mdl-card__title mdl-card--expand"}),_vm._v(" "),_c('div',{class:{'mdl-card__actions':!_vm.listed||image.floor!=undefined||image.isVideo}},[(!_vm.listed)?_c('span',[_vm._v(_vm._s(_vm.post.title))]):_vm._e(),_vm._v(" "),(image.floor!=undefined)?_c('span',[_vm._v("#B"+_vm._s(image.floor))]):_vm._e(),_vm._v(" "),(image.isVideo)?_c('span',[_vm._v("影片縮圖(前往連結觀賞)")]):_vm._e()])])])]})],2)]):_vm._e()}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.post.media.length>0)?_c('div',{staticClass:"defaultblock"},[(_vm.listed)?_c('div',[_c('h4',{staticClass:"text-white"},[_vm._v("\n      "+_vm._s(_vm.post.title)+"\n      "),(_vm.post.pptcc)?_c('span',{staticClass:"mdl-chip",staticStyle:{"vertical-align":"middle"}},[_c('span',{staticClass:"mdl-chip__text"},[_vm._v("ptt.cc")])]):_vm._e(),_vm._v(" "),(_vm.post.vimeo)?_c('span',{staticClass:"mdl-chip",staticStyle:{"vertical-align":"middle"}},[_c('span',{staticClass:"mdl-chip__text"},[_vm._v("vimeo")])]):_vm._e(),_vm._v(" "),(_vm.downloading.status)?_c('span',{staticClass:"mdl-chip",staticStyle:{"vertical-align":"middle"}},[_c('span',{staticClass:"mdl-chip__text"},[_vm._v("壓縮中("+_vm._s(_vm.downloading.success)+"/"+_vm._s(_vm.downloading.max)+")")])]):_c('button',{staticClass:"mdl-chip",staticStyle:{"vertical-align":"middle"},on:{"click":_vm.download}},[_c('span',{staticClass:"mdl-chip__text"},[_vm._v("下載本文圖片")])])])]):_vm._e(),_vm._v(" "),_c('div',{style:(_vm.style)},[_vm._l((_vm.post.media),function(image,index){return [(image.isVideo)?_c('div',{key:_vm.post.id+'-'+index,staticClass:"imgBlock mdl-card"},[_c('div',{staticClass:"mdl-card__title mdl-card--expand",staticStyle:{"padding":"0px"}},[_c('video',{staticClass:"videoBlock",attrs:{"controls":""}},[_c('source',{attrs:{"src":image.url.replace('thumbnail.jpg','source'),"type":"video/mp4"}})])]),_vm._v(" "),_c('div',{staticClass:"mdl-card__actions text-white"},[(!_vm.listed)?_c('span',[_vm._v(_vm._s(_vm.post.title))]):_vm._e(),_vm._v(" "),(image.floor!=undefined)?_c('span',[_vm._v("#B"+_vm._s(image.floor))]):_vm._e(),_vm._v(" "),(image.isVideo)?_c('span',[_vm._v("#影片")]):_vm._e()])]):_c('a',{key:_vm.post.id+'-'+index,attrs:{"href":'https://www.dcard.tw/f/'+_vm.post.forumAlias+'/p/'+_vm.post.id,"target":"_blank","title":_vm.post.title}},[_c('div',{staticClass:"imgBlock mdl-card",style:({'background': 'url("'+image.thumbnail+'") center center / cover'})},[_c('div',{staticClass:"mdl-card__title mdl-card--expand"}),_vm._v(" "),_c('div',{class:{'mdl-card__actions':!_vm.listed||image.floor!=undefined||image.isVideo}},[(!_vm.listed)?_c('span',[_vm._v(_vm._s(_vm.post.title))]):_vm._e(),_vm._v(" "),(image.floor!=undefined)?_c('span',[_vm._v("#B"+_vm._s(image.floor))]):_vm._e(),_vm._v(" "),(image.isVideo)?_c('span',[_vm._v("影片縮圖(前往連結觀賞)")]):_vm._e()])])])]})],2)]):_vm._e()}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -9513,6 +9513,24 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 const article = require("./components/article.vue");
 module.exports = {
@@ -9531,8 +9549,8 @@ module.exports = {
         enabled: false,
         label: "沒有更多文章了"
       },
-      searchBaseAPI:'https://dcardimage.000webhostapp.com/search.php',
-      defaultBaseAPI:'https://www.dcard.tw/_api'
+      searchBaseAPI: "api/search.php",
+      defaultBaseAPI: "https://www.dcard.tw/_api"
     };
   },
   computed: {
@@ -9545,15 +9563,11 @@ module.exports = {
     }
   },
   created() {
-    if (this.$route.params.search != undefined) {
-        this.searchPostsImages();
-      } else this.selectForum();
+    this.search();
   },
   watch: {
     "$route.params.search": function() {
-      if (this.$route.params.search != undefined) {
-        this.searchPostsImages();
-      } else this.selectForum();
+      this.search();
     },
     //監控板塊變更
     "$route.params.forum": function() {
@@ -9600,6 +9614,11 @@ module.exports = {
     clear() {
       this.posts = [];
       this.end.enabled = false;
+    },
+    search() {
+      if (this.$route.params.search != undefined) {
+        this.searchPostsImages();
+      } else this.selectForum();
     },
     //搜尋文章
     searchPostsImages() {
@@ -9690,9 +9709,9 @@ module.exports = {
         this.postLimit
       }&popular=${this.status.popular}`;
       if (forum == "all" || forum == undefined)
-        api = `${this.defaultBaseAPI}/posts?limit=${
-          this.postLimit
-        }&popular=${this.status.popular}`;
+        api = `${this.defaultBaseAPI}/posts?limit=${this.postLimit}&popular=${
+          this.status.popular
+        }`;
       axios
         .get(api)
         .then(res => {
@@ -9729,9 +9748,9 @@ module.exports = {
         this.postLimit
       }&popular=${this.status.popular}&&before=${lastId}`;
       if (forum == "all" || forum == undefined)
-        api = `${this.defaultBaseAPI}/posts?limit=${
-          this.postLimit
-        }&popular=${this.status.popular}&&before=${lastId}`;
+        api = `${this.defaultBaseAPI}/posts?limit=${this.postLimit}&popular=${
+          this.status.popular
+        }&&before=${lastId}`;
       if (lastId > 0)
         axios
           .get(api)
@@ -9775,7 +9794,7 @@ if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
 __vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('main',{staticClass:"mdl-layout__content",attrs:{"id":"main"}},[_c('div',{staticClass:"page-content",attrs:{"id":"page-content"},on:{"&scroll":function($event){return _vm.scrolling($event)}}},[_vm._l((_vm.filterPosts),function(post){return _c('d-article',{key:post.id,attrs:{"comment":_vm.status.comment,"listed":_vm.status.listed,"post":post}})}),_vm._v(" "),(_vm.end.enabled)?_c('div',{staticClass:"defaultblock"},[_vm._m(0),_vm._v(" "),_c('div',{staticClass:"endBlock"},[_vm._v(_vm._s(_vm.end.label))])]):_vm._e()],2),_vm._v(" "),_c('div',{staticClass:"mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active loadbar",style:({display:_vm.loading?'block':'none'})}),_vm._v(" "),_c('button',{staticClass:"mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--primary loadmoreButton",staticStyle:{"margin-bottom":"64px","background-color":"rgba(196,206,52,1)"},on:{"click":_vm.showHelp}},[_c('i',{staticClass:"material-icons"},[_vm._v("attach_money")])]),_vm._v(" "),_c('button',{staticClass:"mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--primary loadmoreButton",attrs:{"disabled":!_vm.button,"id":"loadmore"},on:{"click":_vm.loadMore}},[_c('i',{staticClass:"material-icons"},[_vm._v("keyboard_arrow_down")])]),_vm._v(" "),_vm._m(1)])}
-__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h4',{staticStyle:{"color":"white"}},[_c('hr')])])},function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('dialog',{staticClass:"mdl-dialog",staticStyle:{"width":"calc(100% - 100px)","max-width":"600px"},attrs:{"id":"help"}},[_c('h4',{staticClass:"mdl-dialog__title"},[_vm._v("支持作者")]),_vm._v(" "),_c('div',{staticClass:"mdl-dialog__content"},[_c('div',{staticClass:"mdl-grid"},[_c('div',{staticClass:"mdl-cell mdl-cell--6-col"},[_c('p',[_vm._v("透過點擊廣告幫助作者維護此網站")]),_vm._v(" "),_c('iframe',{attrs:{"src":"//ads.exdynsrv.com/iframe.php?idzone=3373751&size=250x250","width":"250","height":"250","scrolling":"no","marginwidth":"0","marginheight":"0","frameborder":"0"}})]),_vm._v(" "),_c('div',{staticClass:"mdl-cell mdl-cell--6-col"},[_c('p',[_vm._v("或者您可以贊助我一杯咖啡的錢")]),_vm._v(" "),_c('a',{attrs:{"href":"https://p.ecpay.com.tw/43E07"}},[_c('img',{attrs:{"src":"https://payment.ecpay.com.tw/Content/themes/WebStyle20170517/images/ecgo.png"}})])])])]),_vm._v(" "),_c('div',{staticClass:"mdl-dialog__actions"},[_c('button',{staticClass:"mdl-button close",attrs:{"type":"button"}},[_vm._v("關閉")])])])}]
+__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h4',{staticStyle:{"color":"white"}},[_c('hr')])])},function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('dialog',{staticClass:"mdl-dialog",staticStyle:{"width":"calc(100% - 100px)","max-width":"600px"},attrs:{"id":"help"}},[_c('h4',{staticClass:"mdl-dialog__title"},[_vm._v("\n      支持作者\n      "),_c('a',{attrs:{"href":"https://p.ecpay.com.tw/FDD74"}},[_c('img',{attrs:{"src":"https://payment.ecpay.com.tw/Content/themes/WebStyle20170517/images/ecgo.png"}})])]),_vm._v(" "),_c('div',{staticClass:"mdl-dialog__content"},[_c('div',{staticClass:"mdl-grid"},[_c('p',[_vm._v("贊助商")]),_vm._v(" "),_c('a',{attrs:{"href":"https://taiwancoldnews.com","target":"_blank"}},[_c('img',{staticStyle:{"max-width":"100%"},attrs:{"src":"assets/images/tcnews.png"}})])]),_vm._v(" "),_c('p',[_vm._v("透過點擊廣告幫助作者維護此網站")]),_vm._v(" "),_c('div',{staticClass:"mdl-grid"},[_c('div',{staticClass:"mdl-cell mdl-cell--6-col"},[_c('iframe',{attrs:{"src":"//ads.exosrv.com/iframe.php?idzone=3373751&size=300x250","width":"300","height":"250","scrolling":"no","marginwidth":"0","marginheight":"0","frameborder":"0"}})]),_vm._v(" "),_c('div',{staticClass:"mdl-cell mdl-cell--6-col"},[_c('iframe',{attrs:{"src":"//ads.exosrv.com/iframe.php?idzone=3374821&size=300x250","width":"300","height":"250","scrolling":"no","marginwidth":"0","marginheight":"0","frameborder":"0"}})])])]),_vm._v(" "),_c('div',{staticClass:"mdl-dialog__actions"},[_c('button',{staticClass:"mdl-button close",attrs:{"type":"button"}},[_vm._v("關閉")])])])}]
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
