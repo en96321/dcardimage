@@ -82,7 +82,7 @@ module.exports = {
         enabled: false,
         label: "沒有更多文章了"
       },
-      searchBaseAPI:'https://dcardimage.azurewebsites.net/search.php',
+      searchBaseAPI:'https://dcardimage.000webhostapp.com/search.php',
       defaultBaseAPI:'https://www.dcard.tw/_api'
     };
   },

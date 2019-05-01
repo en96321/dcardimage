@@ -1,12 +1,14 @@
 <?php
     header("Content-Type: application/json; charset=UTF-8");
-    if(isset($_GET["id"])){
-        $id = urlencode($_GET["id"]);
-        $limit = "100";
-        $after = 0;
+    if(isset($_GET["query"])){
+        $forum = "";
+        $query = urlencode($_GET["query"]);
+        $offset = "";
+        $limit = "10";
+        if(isset($_GET["forum"]))$forum = "&forum=".$_GET["forum"];
+        if(isset($_GET["offset"]))$offset = "&offset=".$_GET["offset"];
         if(isset($_GET["limit"]))$limit = $_GET["limit"];
-        if(isset($_GET["after"]))$after = $_GET["after"];
-        $api = "https://www.dcard.tw/_api/posts/{$id}/comments?limit={$limit}&after={$after}";
+        $api = "https://www.dcard.tw/_api/search/posts?query={$query}&limit={$limit}{$forum}{$offset}";
             $ch = curl_init();
             curl_setopt($ch,CURLOPT_URL,$api);
             curl_setopt($ch,CURLOPT_HEADER,false);

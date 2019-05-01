@@ -9085,13 +9085,13 @@ module.exports = {
   methods: {
     //讀取dcard一般留言
     getCommentsImages(post, floor) {
-      let api = `https://dcardimage.azurewebsites.net/comments.php?id=${post.id}&limit=${
+      let api = `https://dcardimage.000webhostapp.com/comments.php?id=${post.id}&limit=${
         this.commentLimit
       }&after=${floor}`;
       axios
         .get(api)
         .then(res => {
-          if (res.status == 200) {
+          if (res.data.error==undefined) {
             res.data.map(c => {
               if (c.content != null) {
                 if (c.content.indexOf("ppt.cc") > -1) this.post.pptcc = true;
@@ -9531,7 +9531,7 @@ module.exports = {
         enabled: false,
         label: "沒有更多文章了"
       },
-      searchBaseAPI:'https://dcardimage.azurewebsites.net/search.php',
+      searchBaseAPI:'https://dcardimage.000webhostapp.com/search.php',
       defaultBaseAPI:'https://www.dcard.tw/_api'
     };
   },
